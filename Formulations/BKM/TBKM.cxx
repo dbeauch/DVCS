@@ -19,25 +19,25 @@
 
 using namespace std;  	// std namespace: so you can do things like 'cout'
 
-ClassImp(TBKM)				// classimp: necessary for root
+ClassImp(TBKM)			// classimp: necessary for root
 
 
-//____________________________________________________________________________________
+//_______________________________________________________________________________________________________________________________
 TBKM::TBKM() {
 	// Default Constructor
 }
-//____________________________________________________________________________________
+//_______________________________________________________________________________________________________________________________
 TBKM::~TBKM() {
 	// Default Destructor
 }
-//___________________________________________________________________________________________________
+//_______________________________________________________________________________________________________________________________
 TComplex TBKM::cdstar( TComplex c, TComplex d ){ // ( C D* ) product
 
     TComplex dstar = TComplex::Conjugate(d);
 
     return ( c.Re() * dstar.Re() - c.Im() * dstar.Im() ) + ( c.Re() * dstar.Im() + c.Im() * dstar.Re() ) * TComplex::I();
 }
-//____________________________________________________________________________________
+//_______________________________________________________________________________________________________________________________
 void TBKM::SetKinematics( Double_t *kine ) {
 
     QQ = kine[0];     //Q^2 value
@@ -51,11 +51,11 @@ void TBKM::SetKinematics( Double_t *kine ) {
     s = 2. * M * k + M2; // Mandelstan variable
     Gamma = x * y * y / ALP_INV / ALP_INV / ALP_INV / PI / 8. / QQ / QQ / sqrt( 1. + ee ); // factor in front of the cross section, eq. (22)
     tmin = - QQ * ( 2. * ( 1. - x ) * ( 1. - sqrt(1. + ee) ) + ee ) / ( 4. * x * ( 1. - x ) + ee ); // eq. (31)
-    Ktilde_10 = sqrt( tmin - t ) * sqrt( ( 1. - x ) * sqrt( 1. + ee ) + ( ( t - tmin ) * ( ee + 4. * x * ( 1. - x ) ) / 4. / QQ ) ) * sqrt( 1. - y - y * y * ee / 4. ) / sqrt( 1. - y + y * y * ee / 4.); // K tilde from 2010 paper
+    Ktilde_10 = sqrt( tmin - t ) * sqrt( ( 1. - x ) * sqrt( 1. + ee ) + ( ( t - tmin ) * ( ee + 4. * x * ( 1. - x ) ) / 4. / QQ ) ) * sqrt( 1. - y - y * y * ee / 4. )
+                / sqrt( 1. - y + y * y * ee / 4.); // K tilde from 2010 paper
     K = sqrt( 1. - y + y * y * ee / 4.) * Ktilde_10 / sqrt(QQ);
-
 }
-//___________________________________________________________________________________
+//_______________________________________________________________________________________________________________________________
 void TBKM::BHLeptonPropagators(Double_t *kine, Double_t phi) {
 
     SetKinematics(kine);
@@ -65,20 +65,18 @@ void TBKM::BHLeptonPropagators(Double_t *kine, Double_t phi) {
     // lepton BH propagators P1 and P2 (contaminating phi-dependence)
     P1 = 1. + 2. * KD / QQ;
     P2 = t / QQ - 2. * KD / QQ;
-
-    //cout << "k * D at "<<phi<<" degres: "<<KD<<endl;
-    cout<<"P1 = "<< P1<<" P2 = "<<P2<<endl;
 }
-//___________________________________________________________________________________
+//_______________________________________________________________________________________________________________________________
 Double_t TBKM::BH_UU(Double_t *kine, Double_t phi, Double_t F1, Double_t F2) { // BH Unpolarized Cross Section
 
     // Sets the kinematics and gets BH propagators
     BHLeptonPropagators(kine, phi);
 
     // BH unpolarized Fourier harmonics eqs. (35 - 37)
-    c0_BH = 8. * K * K * ( ( 2. + 3. * ee ) * ( QQ / t ) * ( F1 * F1  - F2 * F2 * t / ( 4. * M2 ) ) + 2. * x * x * ( F1 + F2 ) * ( F1 + F2 ) ) +
-          ( 2. - y ) * ( 2. - y ) * ( ( 2. + ee ) * ( ( 4. * x * x * M2 / t ) * ( 1. + t / QQ ) * ( 1. + t / QQ ) + 4. * ( 1. - x ) * ( 1. + x * t / QQ ) ) * ( F1 * F1 - F2 * F2 * t / ( 4. * M2 ) ) + 4. * x * x * ( x + ( 1. - x + ee / 2. ) * ( 1. - t / QQ ) * ( 1. - t / QQ ) - x * ( 1. - 2. * x ) * t * t / ( QQ * QQ ) ) * ( F1 + F2 ) * ( F1 + F2 ) ) +
-          8. * ( 1. + ee ) * ( 1. - y - ee * y * y / 4. ) * ( 2. * ee * ( 1. - t / ( 4. * M2 ) ) * ( F1 * F1 - F2 * F2 * t / ( 4. * M2 ) ) - x * x * ( 1. - t / QQ ) * ( 1. - t / QQ ) * ( F1 + F2 ) * ( F1 + F2 ) );
+    c0_BH = 8. * K * K * ( ( 2. + 3. * ee ) * ( QQ / t ) * ( F1 * F1  - F2 * F2 * t / ( 4. * M2 ) ) + 2. * x * x * ( F1 + F2 ) * ( F1 + F2 ) )
+            + ( 2. - y ) * ( 2. - y ) * ( ( 2. + ee ) * ( ( 4. * x * x * M2 / t ) * ( 1. + t / QQ ) * ( 1. + t / QQ ) + 4. * ( 1. - x ) * ( 1. + x * t / QQ ) ) * ( F1 * F1 - F2 * F2 * t / ( 4. * M2 ) )
+            + 4. * x * x * ( x + ( 1. - x + ee / 2. ) * ( 1. - t / QQ ) * ( 1. - t / QQ ) - x * ( 1. - 2. * x ) * t * t / ( QQ * QQ ) ) * ( F1 + F2 ) * ( F1 + F2 ) )
+            + 8. * ( 1. + ee ) * ( 1. - y - ee * y * y / 4. ) * ( 2. * ee * ( 1. - t / ( 4. * M2 ) ) * ( F1 * F1 - F2 * F2 * t / ( 4. * M2 ) ) - x * x * ( 1. - t / QQ ) * ( 1. - t / QQ ) * ( F1 + F2 ) * ( F1 + F2 ) );
 
     c1_BH = 8. * K * ( 2. - y ) * ( ( 4. * x * x * M2 / t - 2. * x - ee ) * ( F1 * F1 - F2 * F2 * t / ( 4. * M2 ) ) + 2. * x * x * ( 1. - ( 1. - 2. * x ) * t / QQ ) * ( F1 + F2 ) * ( F1 + F2 ) );
 
@@ -91,10 +89,10 @@ Double_t TBKM::BH_UU(Double_t *kine, Double_t phi, Double_t F1, Double_t F2) { /
 
     return dsigma_BH = Gamma * Amp2_BH;
 }
-//===================================================================================================
+//===============================================================================================================================
 //                   B   K   M   -   2   0   0   2
-//===================================================================================================
-//___________________________________________________________________________________________________
+//===============================================================================================================================
+//_______________________________________________________________________________________________________________________________
 Double_t TBKM::DVCS_UU_02(Double_t *kine, Double_t phi, TComplex t2cffs[4], TString twist = "T2") { // Pure DVCS Unpolarized Cross Section
 
     SetKinematics(kine);
@@ -105,11 +103,11 @@ Double_t TBKM::DVCS_UU_02(Double_t *kine, Double_t phi, TComplex t2cffs[4], TStr
     TComplex Htilde = t2cffs[2];
     TComplex Etilde = t2cffs[3];
 
-    // c coefficients (eq. 66) for pure DVCS .
-    Double_t c_dvcs = 1./(2. - x)/(2. - x) * ( 4. * ( 1 - x ) * ( H.Rho2() + Htilde.Rho2() ) - x * x * ( cdstar(H, E) + cdstar(E, H) + cdstar(Htilde, Etilde) + cdstar(Etilde, Htilde) ) -
-                    ( x * x + (2. - x) * (2. - x) * t / 4. / M2 ) * E.Rho2() - ( x * x * t / 4. / M2 ) * Etilde.Rho2() );
+    // c coefficients (BKM02 eqs. [66]) for pure DVCS
+    Double_t c_dvcs = 1./(2. - x)/(2. - x) * ( 4. * ( 1 - x ) * ( H.Rho2() + Htilde.Rho2() ) - x * x * ( cdstar(H, E) + cdstar(E, H) + cdstar(Htilde, Etilde) + cdstar(Etilde, Htilde) )
+                      - ( x * x + (2. - x) * (2. - x) * t / 4. / M2 ) * E.Rho2() - ( x * x * t / 4. / M2 ) * Etilde.Rho2() );
 
-    // Pure DVCS unpolarized Fourier harmonics eqs. (43 - 44)
+    // Pure DVCS unpolarized Fourier harmonics (BKM02 eqs. [43, 44])
     c0_dvcs = 2. * ( 2. - 2. * y + y * y ) * c_dvcs;
     c1_dvcs = - ( 2. * xi / ( 1. + xi ) ) * ( 8. * K / ( 2. - x ) ) * ( 2. - y ) * c_dvcs;
 
@@ -124,7 +122,7 @@ Double_t TBKM::DVCS_UU_02(Double_t *kine, Double_t phi, TComplex t2cffs[4], TStr
 
     return dsigma_DVCS = Gamma * Amp2_DVCS;
 }
-//___________________________________________________________________________________________________
+//_______________________________________________________________________________________________________________________________
 Double_t TBKM::I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex t2cffs[4], TString twist = "T2") { // Interference Unpolarized Cross Section (Liuti's style)
 
     // Get BH propagators and set the kinematics
@@ -136,26 +134,27 @@ Double_t TBKM::I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, T
     TComplex Htilde = t2cffs[2];
     TComplex Etilde = t2cffs[3]; // This CFF does not appear in the interference
 
-    Double_t A, B, C; // Coefficients in from to the CFFs
+    Double_t A_02, B_02, C_02; // Coefficients in from to the CFFs
 
     if( twist == "T2") // F_eff = 0, no c2 term (no cos(2phi))
-        A = - 8. * K * K * ( 2. - y ) * ( 2. - y ) * ( 2. - y ) / ( 1. - y ) - 8. * ( 2. - y ) * ( 1. - y ) * ( 2. - x ) * t / QQ - 8. * K * ( 2. - 2. * y + y * y ) * cos( PI - (phi * RAD) );
+        A_02 = - 8. * K * K * ( 2. - y ) * ( 2. - y ) * ( 2. - y ) / ( 1. - y ) - 8. * ( 2. - y ) * ( 1. - y ) * ( 2. - x ) * t / QQ - 8. * K * ( 2. - 2. * y + y * y ) * cos( PI - (phi * RAD) );
 
     if( twist == "T3") // F_eff = -2xi/(1+xi) F
-        A = - 8. * K * K * ( 2. - y ) * ( 2. - y ) * ( 2. - y ) / ( 1. - y ) - 8. * ( 2. - y ) * ( 1. - y ) * ( 2. - x ) * t / QQ - 8. * K * ( 2. - 2. * y + y * y ) * cos( PI - (phi * RAD) )
-            + 32. * K * K * xi * ( 2. - y ) / ( 2. - x ) / ( 1. + xi ) * cos( 2. * ( PI - ( phi * RAD ) ) );
+        A_02 = - 8. * K * K * ( 2. - y ) * ( 2. - y ) * ( 2. - y ) / ( 1. - y ) - 8. * ( 2. - y ) * ( 1. - y ) * ( 2. - x ) * t / QQ - 8. * K * ( 2. - 2. * y + y * y ) * cos( PI - (phi * RAD) )
+               + 32. * K * K * xi * ( 2. - y ) / ( 2. - x ) / ( 1. + xi ) * cos( 2. * ( PI - ( phi * RAD ) ) );
 
-    B = 8. * x * x * ( 2. - y ) * (1 - y ) / ( 2. - x ) * t / QQ;
+    B_02 = 8. * x * x * ( 2. - y ) * (1 - y ) / ( 2. - x ) * t / QQ;
     // C =  x / ( 2. - x ) * ( - 8. * K * K * ( 2. - y ) * ( 2. - y ) * ( 2. - y ) / ( 1. - y ) - 8. * K * ( 2. - 2. * y + y * y ) * cos( PI - (phi * RAD) ) );
-    C = x / ( 2. - x ) * ( A + ( 2. - x ) * ( 2. - x) / x / x * B );
+    C_02 = x / ( 2. - x ) * ( A_02 + ( 2. - x ) * ( 2. - x) / x / x * B_02 );
 
     // BH-DVCS interference squared amplitude eq (27) divided by e^6
-    I = 1. / ( x * y * y * y * t * P1 * P2 ) * ( A * ( F1 * H.Re() - t / 4. / M2 * F2 * E.Re() ) + B * ( F1 + F2 ) * ( H.Re() + E.Re() ) + C * ( F1 + F2 ) * Htilde.Re() );
+    I = 1. / ( x * y * y * y * t * P1 * P2 ) * ( A_02 * ( F1 * H.Re() - t / 4. / M2 * F2 * E.Re() ) + B_02 * ( F1 + F2 ) * ( H.Re() + E.Re() ) + C_02 * ( F1 + F2 ) * Htilde.Re() );
 
     I = GeV2nb * I; // convertion to nb
 
     return dsigma_I = Gamma * I;
 }
-//===================================================================================================
+//===============================================================================================================================
 //                   B   K   M   -   2   0   1   0
-//===================================================================================================
+//===============================================================================================================================
+//_______________________________________________________________________________________________________________________________
