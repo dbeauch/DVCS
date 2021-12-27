@@ -38,6 +38,14 @@ TComplex TBKM::cdstar( TComplex c, TComplex d ){ // ( C D* ) product
     return ( c.Re() * dstar.Re() - c.Im() * dstar.Im() ) + ( c.Re() * dstar.Im() + c.Im() * dstar.Re() ) * TComplex::I();
 }
 //_______________________________________________________________________________________________________________________________
+void TBKM::SetCFFs( TComplex *t2cffs ) { // Twist-2 Compton Form Factors
+
+     H = t2cffs[0];
+     E = t2cffs[1];
+     Htilde = t2cffs[2];
+     Etilde = t2cffs[3];
+}
+//_______________________________________________________________________________________________________________________________
 void TBKM::SetKinematics( Double_t *kine ) {
 
     QQ = kine[0];     //Q^2 value
@@ -93,15 +101,11 @@ Double_t TBKM::BH_UU(Double_t *kine, Double_t phi, Double_t F1, Double_t F2) { /
 //                   B   K   M   -   2   0   0   2
 //===============================================================================================================================
 //_______________________________________________________________________________________________________________________________
-Double_t TBKM::DVCS_UU_02(Double_t *kine, Double_t phi, TComplex t2cffs[4], TString twist = "T2") { // Pure DVCS Unpolarized Cross Section
+Double_t TBKM::DVCS_UU_02(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist = "T2") { // Pure DVCS Unpolarized Cross Section
 
     SetKinematics(kine);
 
-    /* t2cffs = { H, E , Htilde, Etilde } Twist-2 Compton Form Factors*/
-    TComplex H = t2cffs[0];
-    TComplex E = t2cffs[1];
-    TComplex Htilde = t2cffs[2];
-    TComplex Etilde = t2cffs[3];
+    SetCFFs(t2cffs);
 
     // c coefficients (BKM02 eqs. [66]) for pure DVCS
     Double_t c_dvcs = 1./(2. - x)/(2. - x) * ( 4. * ( 1 - x ) * ( H.Rho2() + Htilde.Rho2() ) - x * x * ( cdstar(H, E) + cdstar(E, H) + cdstar(Htilde, Etilde) + cdstar(Etilde, Htilde) )
@@ -123,16 +127,12 @@ Double_t TBKM::DVCS_UU_02(Double_t *kine, Double_t phi, TComplex t2cffs[4], TStr
     return dsigma_DVCS = Gamma * Amp2_DVCS;
 }
 //_______________________________________________________________________________________________________________________________
-Double_t TBKM::I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex t2cffs[4], TString twist = "T2") { // Interference Unpolarized Cross Section (Liuti's style)
+Double_t TBKM::I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist = "T2") { // Interference Unpolarized Cross Section (Liuti's style)
 
     // Get BH propagators and set the kinematics
     BHLeptonPropagators(kine, phi);
 
-    /* t2cffs_I = { H, E , Htilde, Etilde } Twist-2 Compton Form Factors ( Etilde does not appear in the interference term ) */
-    TComplex H = t2cffs[0];
-    TComplex E = t2cffs[1];
-    TComplex Htilde = t2cffs[2];
-    TComplex Etilde = t2cffs[3]; // This CFF does not appear in the interference
+    SetCFFs(t2cffs); // Etilde CFF does not appear in the interference
 
     Double_t A_02, B_02, C_02; // Coefficients in from to the CFFs
 
