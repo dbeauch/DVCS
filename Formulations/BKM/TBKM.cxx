@@ -101,25 +101,25 @@ Double_t TBKM::BH_UU(Double_t *kine, Double_t phi, Double_t F1, Double_t F2) { /
 //                   B   K   M   -   2   0   0   2
 //===============================================================================================================================
 //_______________________________________________________________________________________________________________________________
-Double_t TBKM::DVCS_UU_02(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist = "T2") { // Pure DVCS Unpolarized Cross Section
+Double_t TBKM::DVCS_UU_02(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist = "t2") { // Pure DVCS Unpolarized Cross Section
 
     SetKinematics(kine);
 
     SetCFFs(t2cffs);
 
     // c coefficients (BKM02 eqs. [66]) for pure DVCS
-    Double_t c_dvcs = 1./(2. - x)/(2. - x) * ( 4. * ( 1 - x ) * ( H.Rho2() + Htilde.Rho2() ) - x * x * ( cdstar(H, E) + cdstar(E, H) + cdstar(Htilde, Etilde) + cdstar(Etilde, Htilde) )
-                      - ( x * x + (2. - x) * (2. - x) * t / 4. / M2 ) * E.Rho2() - ( x * x * t / 4. / M2 ) * Etilde.Rho2() );
+    c_dvcs = 1./(2. - x)/(2. - x) * ( 4. * ( 1 - x ) * ( H.Rho2() + Htilde.Rho2() ) - x * x * ( cdstar(H, E) + cdstar(E, H) + cdstar(Htilde, Etilde) + cdstar(Etilde, Htilde) )
+             - ( x * x + (2. - x) * (2. - x) * t / 4. / M2 ) * E.Rho2() - ( x * x * t / 4. / M2 ) * Etilde.Rho2() );
 
     // Pure DVCS unpolarized Fourier harmonics (BKM02 eqs. [43, 44])
     c0_dvcs = 2. * ( 2. - 2. * y + y * y ) * c_dvcs;
     c1_dvcs = - ( 2. * xi / ( 1. + xi ) ) * ( 8. * K / ( 2. - x ) ) * ( 2. - y ) * c_dvcs;
 
     // DVCS squared amplitude eq (26) divided by e^6
-    if( twist == "T2") // F_eff = 0
+    if( twist == "t2") // F_eff = 0
         Amp2_DVCS = 1. / ( y * y * QQ ) *  c0_dvcs ;
 
-    if( twist == "T3")  // F_eff = -2xi/(1+xi) F
+    if( twist == "t3")  // F_eff = -2xi/(1+xi) F
         Amp2_DVCS = 1. / ( y * y * QQ ) * ( c0_dvcs + c1_dvcs * cos( PI - (phi * RAD) ) );
 
     Amp2_DVCS = GeV2nb * Amp2_DVCS; // convertion to nb
@@ -127,7 +127,7 @@ Double_t TBKM::DVCS_UU_02(Double_t *kine, Double_t phi, TComplex *t2cffs, TStrin
     return dsigma_DVCS = Gamma * Amp2_DVCS;
 }
 //_______________________________________________________________________________________________________________________________
-Double_t TBKM::I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist = "T2") { // Interference Unpolarized Cross Section (Liuti's style)
+Double_t TBKM::I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist = "t2") { // Interference Unpolarized Cross Section (Liuti's style)
 
     // Get BH propagators and set the kinematics
     BHLeptonPropagators(kine, phi);
@@ -136,10 +136,10 @@ Double_t TBKM::I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, T
 
     Double_t A_02, B_02, C_02; // Coefficients in from to the CFFs
 
-    if( twist == "T2") // F_eff = 0, no c2 term (no cos(2phi))
+    if( twist == "t2") // F_eff = 0, no c2 term (no cos(2phi))
         A_02 = - 8. * K * K * ( 2. - y ) * ( 2. - y ) * ( 2. - y ) / ( 1. - y ) - 8. * ( 2. - y ) * ( 1. - y ) * ( 2. - x ) * t / QQ - 8. * K * ( 2. - 2. * y + y * y ) * cos( PI - (phi * RAD) );
 
-    if( twist == "T3") // F_eff = -2xi/(1+xi) F
+    if( twist == "t3") // F_eff = -2xi/(1+xi) F
         A_02 = - 8. * K * K * ( 2. - y ) * ( 2. - y ) * ( 2. - y ) / ( 1. - y ) - 8. * ( 2. - y ) * ( 1. - y ) * ( 2. - x ) * t / QQ - 8. * K * ( 2. - 2. * y + y * y ) * cos( PI - (phi * RAD) )
                + 32. * K * K * xi * ( 2. - y ) / ( 2. - x ) / ( 1. + xi ) * cos( 2. * ( PI - ( phi * RAD ) ) );
 
@@ -158,3 +158,118 @@ Double_t TBKM::I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, T
 //                   B   K   M   -   2   0   1   0
 //===============================================================================================================================
 //_______________________________________________________________________________________________________________________________
+Double_t TBKM::DVCS_UU_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist = "t2") { // Pure DVCS Unpolarized Cross Section
+
+    SetKinematics(kine);
+
+    SetCFFs(t2cffs);
+
+    // F_eff = f * F
+    if(twist == "t2") f = 0; // F_eff = 0 --> DVCS is constant
+    if(twist == "t3") f = - 2. * xi / ( 1. + xi );
+    if(twist == "t3ww") f = 2. / ( 1. + xi );
+
+    // c_dvcs_unp(F,F*) coefficients (BKM10 eqs. [2.22]) for pure DVCS
+    c_dvcs_ffs = QQ * ( QQ + x * t ) / pow( ( ( 2. - x ) * QQ + x * t ), 2) * ( 4. * ( 1. - x ) * H.Rho2() + 4. * ( 1. - x + ( 2. * QQ + t ) / ( QQ + x * t ) * ee / 4. ) * Htilde.Rho2()
+                 - x * x * pow( ( QQ + t ), 2) / ( QQ * ( QQ + x * t ) ) * ( cdstar(H, E) + cdstar(E, H) ) - x * x * QQ / ( QQ + x * t ) * ( cdstar(Htilde, Etilde) + cdstar(Etilde, Htilde) )
+                 - ( x * x * pow( ( QQ + t ), 2) / ( QQ * ( QQ + x * t ) ) + pow( ( ( 2. - x ) * QQ + x * t ), 2) / QQ / ( QQ + x * t ) * t / 4. / M2 ) * E.Rho2()
+                 - ( x * x * QQ / ( QQ + x * t ) * t / 4. / M2 ) * Etilde.Rho2() );
+    // c_dvcs_unp(Feff,Feff*)
+    c_dvcs_effeffs = f * f * c_dvcs_ffs;
+    // c_dvcs_unp(Feff,F*)
+    c_dvcs_efffs = f * c_dvcs_ffs;
+
+    // dvcs c_n coefficients (BKM10 eqs. [2.18], [2.19])
+    c0_dvcs_10 = 2. * ( 2. - 2. * y + y * y  + ee / 2. * y * y ) / ( 1. + ee ) * c_dvcs_ffs + 16. * K * K / pow(( 2. - x ), 2) / ( 1. + ee ) * c_dvcs_effeffs;
+    c1_dvcs_10 = 8. * K / ( 2. - x ) / ( 1. + ee ) * ( 2. - y ) * c_dvcs_efffs;
+
+    Amp2_DVCS_10 = 1. / ( y * y * QQ ) * ( c0_dvcs_10 + c1_dvcs_10 * cos( PI - (phi * RAD) ) );
+
+    Amp2_DVCS_10 = GeV2nb * Amp2_DVCS_10; // convertion to nb
+
+    return dsigma_DVCS_10 = Gamma * Amp2_DVCS_10;
+}
+//_______________________________________________________________________________________________________________________________
+Double_t TBKM::I_UU_10(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist = "t2") { // Interference Unpolarized Cross Section (Liuti's style)
+
+    // Get BH propagators and set the kinematics
+    BHLeptonPropagators(kine, phi);
+
+    // Set the CFFs
+    SetCFFs(t2cffs); // Etilde CFF does not appear in the interference
+
+    // Get A_UU_I, B_UU_I and C_UU_I interference coefficients
+    ABC_UU_I_10(kine, phi, A_U_I, B_U_I, C_U_I, twist);
+
+    // BH-DVCS interference squared amplitude
+    I_10 = 1. / ( x * y * y * y * t * P1 * P2 ) * ( A_U_I * ( F1 * H.Re() - t / 4. / M2 * F2 * E.Re() ) + B_U_I * ( F1 + F2 ) * ( H.Re() + E.Re() ) + C_U_I * ( F1 + F2 ) * Htilde.Re() );
+
+    I_10 = GeV2nb * I_10; // convertion to nb
+
+    return dsigma_I_10 = Gamma * I_10;
+}
+//_______________________________________________________________________________________________________________________________
+void TBKM::ABC_UU_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &B_U_I, Double_t &C_U_I, TString twist = "t2") { // Get A_UU_I, B_UU_I and C_UU_I interference coefficients (BKM10)
+
+    SetKinematics(kine);
+
+    // F_eff = f * F
+    if(twist == "t2") f = 0; // F_eff = 0 ( pure twist 2)
+    if(twist == "t3") f = - 2. * xi / ( 1. + xi );
+    if(twist == "t3ww") f = 2. / ( 1. + xi );
+
+    // Interference coefficients  (BKM10 Appendix A.1)
+    // n = 0 -----------------------------------------
+    // helicity - conserving (F)
+    C_110 = - 4. * ( 2. - y ) * ( 1. + sqrt( 1 + ee ) ) / pow(( 1. + ee ), 2) * ( Ktilde_10 * Ktilde_10 * ( 2. - y ) * ( 2. - y ) / QQ / sqrt( 1 + ee )
+            + t / QQ * ( 1. - y - ee / 4. * y * y ) * ( 2. - x ) * ( 1. + ( 2. * x * ( 2. - x + ( sqrt( 1. + ee ) - 1. ) / 2. + ee / 2. / x ) * t / QQ + ee ) / ( 2. - x ) / ( 1. + sqrt( 1. + ee ) ) ) );
+    C_110_V = 8. * ( 2. - y ) / pow(( 1. + ee ), 2) * x * t / QQ * ( ( 2. - y ) * ( 2. - y ) / sqrt( 1. + ee ) * Ktilde_10 * Ktilde_10 / QQ
+              + ( 1. - y - ee / 4. * y * y ) * ( 1. + sqrt( 1. + ee ) ) / 2. * ( 1. + t / QQ ) * ( 1. + ( sqrt ( 1. + ee ) - 1. + 2. * x ) / ( 1. + sqrt( 1. + ee ) ) * t / QQ ) );
+    C_110_A = 8. * ( 2. - y ) / pow(( 1. + ee ), 2) * t / QQ * ( ( 2. - y ) * ( 2. - y ) / sqrt( 1. + ee ) * Ktilde_10 * Ktilde_10 / QQ * ( 1. + sqrt( 1. + ee ) - 2. * x ) / 2.
+              + ( 1. - y - ee / 4. * y * y ) * ( ( 1. + sqrt( 1. + ee ) ) / 2. * ( 1. + sqrt( 1. + ee ) - x + ( sqrt( 1. + ee ) - 1. + x * ( 3. + sqrt( 1. + ee ) - 2. * x ) / ( 1. + sqrt( 1. + ee ) ) )
+              * t / QQ ) - 2. * Ktilde_10 * Ktilde_10 / QQ ) );
+    // helicity - changing (F_eff)
+    C_010 = 12. * sqrt(2.) * K * ( 2. - y ) * sqrt( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * ( ee + ( 2. - 6. * x - ee ) / 3. * t / QQ );
+    C_010_V = 24. * sqrt(2.) * K * ( 2. - y ) * sqrt( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * x * t / QQ * ( 1. - ( 1. - 2. * x ) * t / QQ );
+    C_010_A = 4. * sqrt(2.) * K * ( 2. - y ) * sqrt( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * t / QQ * ( 8. - 6. * x + 5. * ee ) * ( 1. - t / QQ * ( ( 2. - 12 * x * ( 1. - x ) - ee )
+              / ( 8. - 6. * x + 5. * ee ) ) );
+    // n = 1 -----------------------------------------
+    // helicity - conserving (F)
+    C_111 = -16. * K * ( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * ( ( 1. + ( 1. - x ) * ( sqrt( 1 + ee ) - 1. ) / 2. / x + ee / 4. / x ) * x * t / QQ - 3. * ee / 4. )
+            - 4. * K * ( 2. - 2. * y + y * y + ee / 2. * y * y ) * ( 1. + sqrt( 1 + ee ) - ee ) / pow(sqrt( 1. + ee ), 5) * ( 1. - ( 1. - 3. * x ) * t / QQ
+            + ( 1. - sqrt( 1 + ee ) + 3. * ee ) / ( 1. + sqrt( 1 + ee ) - ee ) * x * t / QQ ) ;
+    C_111_V = 16. * K / pow(sqrt( 1. + ee ), 5) * x * t / QQ * ( ( 2. - y ) * ( 2. - y ) * ( 1. - ( 1. - 2. * x ) * t / QQ ) + ( 1. - y - ee / 4. * y * y )
+              * ( 1. + sqrt( 1. + ee ) - 2. * x ) / 2. * ( t - tmin ) / QQ );
+    C_111_A = -16. * K / pow(( 1. + ee ), 2) * t / QQ * ( ( 1. - y - ee / 4. * y * y ) * ( 1. - ( 1. - 2. * x ) * t / QQ + ( 4. * x * ( 1. - x ) + ee ) / 4. / sqrt( 1. + ee ) * ( t - tmin ) / QQ )
+              - pow(( 2. - y ), 2) * ( 1. - x / 2. + ( 1. + sqrt( 1. + ee ) - 2. * x ) / 4. * ( 1. - t / QQ ) + ( 4. * x * ( 1. - x ) + ee ) / 2. / sqrt( 1. + ee ) * ( t - tmin ) / QQ ) );
+    // helicity - changing (F_eff)
+    C_011 = 8. * sqrt(2.) * sqrt( 1. - y - ee / 4. * y * y ) / pow(( 1. + ee ), 2) * ( pow(( 2. - y ), 2) * ( t - tmin ) / QQ * ( 1. - x + ( ( 1. - x ) * x + ee / 4. ) / sqrt( 1. + ee ) * ( t - tmin ) / QQ )
+            + ( 1. - y - ee / 4. * y * y ) / sqrt( 1 + ee ) * ( 1. - ( 1. - 2. * x ) * t / QQ ) * ( ee - 2. * ( 1. + ee / 2. / x ) * x * t / QQ ) );
+    C_011_V = 16. * sqrt(2.) * sqrt( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * x * t / QQ * ( pow( Ktilde_10 * ( 2. - y ), 2) / QQ + pow(( 1. - ( 1. - 2. * x ) * t / QQ ), 2) * ( 1. - y - ee / 4. * y * y ) );
+    C_011_A = 8. * sqrt(2.) * sqrt( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * t / QQ * ( pow( Ktilde_10 * ( 2. - y ), 2) * ( 1. - 2. * x ) / QQ + ( 1. - ( 1. - 2. * x ) * t / QQ )
+              * ( 1. - y - ee / 4. * y * y ) * ( 4. - 2. * x + 3. * ee + t / QQ * ( 4. * x * ( 1. - x ) + ee ) ) );
+    // n = 2 -----------------------------------------
+    // helicity - conserving (F)
+    C_112 = 8. * ( 2. - y ) * ( 1. - y - ee / 4. * y * y ) / pow(( 1. + ee ), 2) * ( 2. * ee / sqrt( 1. + ee ) / ( 1. + sqrt( 1. + ee ) ) * pow(Ktilde_10, 2) / QQ + x * t * ( t - tmin ) / QQ / QQ
+            * ( 1. - x - ( sqrt( 1. + ee ) - 1. ) / 2. + ee / 2. / x ) );
+    C_112_V = 8. * ( 2. - y ) * ( 1. - y - ee / 4. * y * y ) / pow(( 1. + ee ), 2) * x * t / QQ * ( 4. * pow(Ktilde_10, 2) / sqrt( 1. + ee ) / QQ + ( 1. + sqrt( 1. + ee ) - 2. * x ) / 2. * ( 1. + t / QQ ) * ( t - tmin ) / QQ );
+    C_112_A = 4. * ( 2. - y ) * ( 1. - y - ee / 4. * y * y ) / pow(( 1. + ee ), 2) * t / QQ * ( 4. * ( 1. - 2. * x ) * pow(Ktilde_10, 2) / sqrt( 1. + ee ) / QQ - ( 3. -  sqrt( 1. + ee ) - 2. * x + ee / x ) * x * ( t - tmin ) / QQ );
+    // helicity - changing (F_eff)
+    C_012 = -8. * sqrt(2.) * K * ( 2. - y ) * sqrt( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * ( 1. + ee / 2. ) * ( 1. + ( 1. + ee / 2. / x ) / ( 1. + ee / 2. ) * x * t / QQ );
+    C_012_V = 8. * sqrt(2.) * K * ( 2. - y ) * sqrt( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * x * t / QQ * ( 1. - ( 1. - 2. * x ) * t / QQ );
+    C_012_A = 8. * sqrt(2.) * K * ( 2. - y ) * sqrt( 1. - y - ee / 4. * y * y ) / pow(( 1. + ee ), 2) * t / QQ * ( 1. - x + ( t - tmin ) / 2. / QQ * ( 4. * x * ( 1. - x ) + ee ) / sqrt( 1. + ee ) );
+    // n = 3 -----------------------------------------
+    // helicity - conserving (F)
+    C_113 = -8. * K * ( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * ( sqrt( 1. + ee ) - 1. ) * ( ( 1. - x ) * t / QQ + ( sqrt( 1. + ee ) - 1. ) / 2. * ( 1. + t / QQ ) );
+    C_113_V = -8. * K * ( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * x * t / QQ * ( sqrt( 1. + ee ) - 1. + ( 1. + sqrt( 1. + ee ) - 2. * x ) * t / QQ );
+    C_113_A = 16. * K * ( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * t * ( t - tmin ) / QQ / QQ * ( x * ( 1. - x ) + ee / 4. );
+
+    // A_U_I, B_U_I and C_U_I
+    A_U_I = C_110 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_010 + ( C_111 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_011 ) * cos( PI - (phi * RAD) )
+            + ( C_112 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_012 ) * cos( 2. * ( PI - (phi * RAD) ) ) + C_113 * cos( 3. * ( PI - (phi * RAD) ) );
+    B_U_I = xi / ( 1. + t / 2. / QQ ) * ( C_110_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_010_V + ( C_111_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_011_V ) * cos( PI - (phi * RAD) )
+            + ( C_112_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_012_V ) * cos( 2. * ( PI - (phi * RAD) ) ) + C_113_V * cos( 3. * ( PI - (phi * RAD) ) ) );
+    C_U_I = xi / ( 1. + t / 2. / QQ ) * ( C_110 + C_110_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * ( C_010 + C_010_A ) + ( C_111 + C_111_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f
+            * ( C_011 + C_011_A ) ) * cos( PI - (phi * RAD) ) + ( C_112 + C_112_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * ( C_012 + C_012_A ) ) * cos( 2. * ( PI - (phi * RAD) ) )
+            + ( C_113 + C_113_A ) * cos( 3. * ( PI - (phi * RAD) ) ) );
+}
