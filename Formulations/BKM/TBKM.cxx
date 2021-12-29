@@ -134,8 +134,6 @@ Double_t TBKM::I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, T
 
     SetCFFs(t2cffs); // Etilde CFF does not appear in the interference
 
-    Double_t A_02, B_02, C_02; // Coefficients in from to the CFFs
-
     if( twist == "t2") // F_eff = 0, no c2 term (no cos(2phi))
         A_02 = - 8. * K * K * ( 2. - y ) * ( 2. - y ) * ( 2. - y ) / ( 1. - y ) - 8. * ( 2. - y ) * ( 1. - y ) * ( 2. - x ) * t / QQ - 8. * K * ( 2. - 2. * y + y * y ) * cos( PI - (phi * RAD) );
 

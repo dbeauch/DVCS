@@ -27,6 +27,7 @@ private:
 	Double_t c0_dvcs, c1_dvcs; // DVCS unpolarized Fourier harmonics (BKM02 eqs. [43, 44])
 	Double_t c0_dvcs_10, c1_dvcs_10; // DVCS unpolarized Fourier harmonics (BKM10 eqs. [2.18], [2.19])
 	Double_t c_dvcs_ffs, c_dvcs_effeffs, c_dvcs_efffs; // c_dvcs_unp(F,F*) coefficients (BKM10 eqs. [2.22]) for pure DVCS
+	Double_t A_02, B_02, C_02; // A_UU_I, B_UU_I, C_UU_I interference coefficients in BKM02
 	Double_t Amp2_BH, Amp2_DVCS, I; // squared amplitudes BKM02
 	Double_t Amp2_DVCS_10, I_10;	// squared amplitudes BKM10
 	Double_t dsigma_BH, dsigma_DVCS, dsigma_I; // 4-fold differential cross sections BKM02
@@ -36,7 +37,7 @@ private:
 	Double_t C_111, C_111_V, C_111_A, C_011, C_011_V, C_011_A; // n = 1
 	Double_t C_112, C_112_V, C_112_A, C_012, C_012_V, C_012_A; // n = 2
 	Double_t C_113, C_113_V, C_113_A; // n = 3
-	Double_t A_U_I, B_U_I, C_U_I;
+	Double_t A_U_I, B_U_I, C_U_I; // A_UU_I, B_UU_I, C_UU_I interference coefficients in BKM10
 
 public:
 
