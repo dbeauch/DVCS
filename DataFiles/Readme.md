@@ -2,10 +2,9 @@
 
 This folder contains the available JLab Hall-A and Hall-B unpolarized dvcs data.
 
-Data is stored in a .csv file with following format: #Set, index, k, QQ, xB, t, phi, F, sigmaF, varF, F1, F2
-In this file each set has 24 angles where for the sets that do not have data for a particular \phi value, F is set to zero.
+Data is stored in a `.csv` file with following format: #Set, index, k, QQ, xB, t, phi, F, sigmaF, varF, F1, F2. In this file each set has 24 angles where for the sets that do not have data for a particular phi value, F is set to zero.
 
-`gentree_Jlabdata.C` saves the .csv datafile of all Jlab data into a `TTree` in a .root file. Every `TTree` entry corresponds to one kimenatic set.
+`gentree_Jlabdata.C` saves the `.csv` datafile of all Jlab data into a `TTree` in a `.root` file. Every `TTree` entry corresponds to one kimenatic set.
 
 There are 195 kinematic set for the unpolarized data; 85 sets from Hall-A and 110 sets from Hall-B.
 
