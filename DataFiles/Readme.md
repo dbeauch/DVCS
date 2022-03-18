@@ -10,6 +10,6 @@ There are 195 kinematic set for the unpolarized data; 85 sets from Hall-A and 11
 
 ###### Data references:
 * E00-110 Hall-A sets 1 - 20 (20 sets)	--> [https://arxiv.org/abs/1504.05453](https://arxiv.org/abs/1504.05453)
-* E12-06-114 Hall-A sets 21 - 65 (45 sets) --> [https://arxiv.org/pdf/2201.03714.pdf] (https://arxiv.org/pdf/2201.03714.pdf )
+* E12-06-114 Hall-A sets 21 - 65 (45 sets) --> [https://arxiv.org/pdf/2201.03714.pdf] (https://arxiv.org/pdf/2201.03714.pdf)
 * Hall-B sets 66 - 175 (110 sets) --> [https://arxiv.org/pdf/1504.02009.pdf](https://arxiv.org/pdf/1504.02009.pdf)
 * E07–007 HAll-A sets 176 - 195 (20 sets) --> [https://arxiv.org/pdf/1703.09442.pdf](https://arxiv.org/pdf/1703.09442.pdf)
