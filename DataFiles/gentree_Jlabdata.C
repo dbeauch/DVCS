@@ -36,7 +36,7 @@ void gentree_Jlabdata() {
 		Double_t QQ;
 		Double_t xB;
 		Double_t t;
-   };
+	};
 	kin_t kin;
 	Double_t phi[kMaxNumOfPts];
 	Double_t F[kMaxNumOfPts], var_F[kMaxNumOfPts];
@@ -49,18 +49,17 @@ void gentree_Jlabdata() {
 	t3->Branch("F",F,"F[npoints]/D");
 	t3->Branch("var_F",var_F,"var_F[npoints]/D");
 
-   TTree *T1 = new TTree("T1","tree data from ascii file");
-   Long64_t nlines_T1 = T1->ReadFile("AllJlabData.csv","f_set/I:f_index:f_k/D:f_QQ:f_xB:f_t:f_phi:f_F:f_sigmaF:f_varF:f_F1:f_F2");
-   printf(" found %lld points\n",nlines_T1);
+	TTree *T1 = new TTree("T1","tree data from ascii file");
+	Long64_t nlines_T1 = T1->ReadFile("AllJlabData.csv","f_set/I:f_index:f_k/D:f_QQ:f_xB:f_t:f_phi:f_F:f_sigmaF:f_varF:f_F1:f_F2");
+	printf(" found %lld points\n",nlines_T1);
 
 	TTree *T2 = new TTree("T2","tree data from ascii file");
-   Long64_t nlines_T2 = T2->ReadFile("AllJlabData.csv","f_set/I:f_index:f_k/D:f_QQ:f_xB:f_t:f_phi:f_F:f_sigmaF:f_varF:f_F1:f_F2");
-   //T2->Write();
+	Long64_t nlines_T2 = T2->ReadFile("AllJlabData.csv","f_set/I:f_index:f_k/D:f_QQ:f_xB:f_t:f_phi:f_F:f_sigmaF:f_varF:f_F1:f_F2");
 
 	Int_t f_set_T1, f_set_T2, f_index;
 	Double_t  f_k, f_QQ, f_xB, f_t, f_phi, f_F, f_sigmaF, f_varF, f_F1, f_F2;
 
-   T1->SetBranchAddress("f_set",&f_set_T1);
+	T1->SetBranchAddress("f_set",&f_set_T1);
 	T2->SetBranchAddress("f_set",&f_set_T2);
 	T1->SetBranchAddress("f_index",&f_index);
 	T1->SetBranchAddress("f_k",&f_k);
@@ -89,8 +88,8 @@ void gentree_Jlabdata() {
 		cout<<"index "<<f_index<<", QQ = "<<f_QQ<<", xB = "<<f_xB<<", t = "<<f_t<<endl;
 		cout<<"phi = "<<f_phi<<", F = "<<f_F<<", var_F = "<<f_sigmaF<<endl;
 
-		if ( (f_F == 0.) &&  (f_set_T1 == f_set_T2) ) continue;		// if it is not the last point of the set, then continue
-		if ( (f_F == 0.) &&  (f_set_T1 != f_set_T2) ) {					// if it is the last point of the set, then fill the tree with last values where F was not zero and continue
+		if ( (f_F == 0.) &&  (f_set_T1 == f_set_T2) ) continue;	// if it is not the last point of the set, then continue
+		if ( (f_F == 0.) &&  (f_set_T1 != f_set_T2) ) {		// if it is the last point of the set, then fill the tree with last values where F was not zero and continue
 
 			cout<<"=============== Set "<<iset<<" ======================="<<endl;
 			cout<<"k = "<< f_k<<endl;
@@ -104,9 +103,7 @@ void gentree_Jlabdata() {
 			kin.t = f_t;
 
 			iset++;
-
 			npoints = ipt;
-
 			ipt = 0;
 
 			t3 ->Fill();
@@ -134,9 +131,7 @@ void gentree_Jlabdata() {
 			kin.t = f_t;
 
 			iset++;
-
 			npoints = ipt;
-			cout<<"npoints = "<<npoints<<endl;
 			ipt = 0;
 
 			t3 ->Fill();
