@@ -27,10 +27,11 @@ The pseudodata generation code takes 4 input arguments. It can be run in ROOT as
 * Third:
 
    Experimetal kinematic sets and phi points to be used. The following options can be used:
-   - "E00-110 Hall-A" sets 1 to 20 of the data file (20 sets)	--> [https://arxiv.org/abs/1504.05453](https://arxiv.org/abs/1504.05453)
-   - "E12-06-114 Hall-A" sets 21 to 65 of the data file (45 sets) --> [https://arxiv.org/pdf/2201.03714.pdf](https://arxiv.org/pdf/2201.03714.pdf)
-   - "Hall-B" sets 66 to 175 of the data file (110 sets) --> [https://arxiv.org/pdf/1504.02009.pdf](https://arxiv.org/pdf/1504.02009.pdf)
-   - "E07–007 HAll-A" sets 176 to 195 of the data file (20 sets) --> [https://arxiv.org/pdf/1703.09442.pdf](https://arxiv.org/pdf/1703.09442.pdf)
+   - "Jlab_all": All available Hall-A and Hall-B data kinematics. Sets 1 to 195 of the datafile.
+   - "E00-110 Hall-A": Sets 1 to 20 of the data file (20 sets)	--> [https://arxiv.org/abs/1504.05453](https://arxiv.org/abs/1504.05453)
+   - "E12-06-114 Hall-A": Sets 21 to 65 of the data file (45 sets) --> [https://arxiv.org/pdf/2201.03714.pdf](https://arxiv.org/pdf/2201.03714.pdf)
+   - "Hall-B": Sets 66 to 175 of the data file (110 sets) --> [https://arxiv.org/pdf/1504.02009.pdf](https://arxiv.org/pdf/1504.02009.pdf)
+   - "E07–007 HAll-A": Sets 176 to 195 of the data file (20 sets) --> [https://arxiv.org/pdf/1703.09442.pdf](https://arxiv.org/pdf/1703.09442.pdf)
 
 * Fourth
 
