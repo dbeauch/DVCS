@@ -29,3 +29,9 @@ The pseudodata generation code takes 4 input arguments. It can be run in ROOT as
    - "E12-06-114 Hall-A" sets 21 to 65 of the data file (45 sets) --> [https://arxiv.org/pdf/2201.03714.pdf](https://arxiv.org/pdf/2201.03714.pdf)
    - "Hall-B" sets 66 to 175 of the data file (110 sets) --> [https://arxiv.org/pdf/1504.02009.pdf](https://arxiv.org/pdf/1504.02009.pdf)
    - "E07–007 HAll-A" sets 176 to 195 of the data file (20 sets) --> [https://arxiv.org/pdf/1703.09442.pdf](https://arxiv.org/pdf/1703.09442.pdf)
+
+* Fourth
+
+   If using CFFs from a model, it can be defined in this argument. There are two models implemented:
+   - "model1" This is a out-of-the-hat model.
+   - "KM15" Modified version of the KM15 model. It is coded up on the file GPD_Models/TGPDModels.h
