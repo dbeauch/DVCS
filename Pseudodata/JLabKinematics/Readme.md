@@ -38,3 +38,6 @@ The pseudodata generation code takes 4 input arguments. It can be run in ROOT as
    If using CFFs from a model, it can be defined in this argument. There are two models implemented:
    - "model1" This is an out-of-the-hat model.
    - "KM15" Modified version of the KM15 model. It is coded up on the file `GPD_Models/TGPDModels.h`.
+
+
+Resulting cross section distributions are saved on the `./Graph` directory.
