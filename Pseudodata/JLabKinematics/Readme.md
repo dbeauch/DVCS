@@ -13,13 +13,17 @@ The pseudodata generation code takes 4 input arguments. It can be run in ROOT as
 ###### Input arguments:
 
 * First:
-   0  CFFs are taken from ANN global fit results which are read from the file ./ANN_GlobalFit_CFFs/BKMXX_ModelFromData.txt where BKMXX is either BKM02 or BKM10 determined by the second argument.
-   1  If taking the CFFs from a model.
+
+   - 0  CFFs are taken from ANN global fit results which are read from the file ./ANN_GlobalFit_CFFs/BKMXX_ModelFromData.txt where BKMXX is either BKM02 or BKM10 determined by the second argument.
+   - 1  If taking the CFFs from a model.
 * Second:
+
    Sets the DVCS cross section formulation to be used. At this point we have available the following formulations:
+   
       - "BKM02"
       - "BKM10"
 * Third:
+
    Experimetal kinematic sets and phi points to be used. The following options can be used:
    - "E00-110 Hall-A" sets 1 to 20 of the data file (20 sets)	--> [https://arxiv.org/abs/1504.05453](https://arxiv.org/abs/1504.05453)
    - "E12-06-114 Hall-A" sets 21 to 65 of the data file (45 sets) --> [https://arxiv.org/pdf/2201.03714.pdf](https://arxiv.org/pdf/2201.03714.pdf)
