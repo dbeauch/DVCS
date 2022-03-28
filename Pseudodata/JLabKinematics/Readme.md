@@ -1,7 +1,13 @@
 # Cross-Section Based Data Generation
 
-DVCS cross section pseudodata using different cross section formulations. The required CFFs input are obtained from various GPD models and data fits.
+This folder contains the generated pseudodata using the BKM02 and BKM10 DVCS cross section formulations at JLab Hall-A and Hall-B DVCS kinematic sets and phi values which are read from the data file */DataFiles/dvcs_Jlabdata.root*.
 
-Naming format of the .root (.csv) file contains the following information:
+Pseudodata generation code is *genpseudoBKM.C*. The resulting cross section values are saved in .root and .csv files where the name contains the following information:
 
-*inputCFFsmodel_DVCSformulation_KinematicsDetails_xserror_otherdetails*
+*pseudo_inputCFFsmodel_DVCSformulation_KinematicsDetails_twist-approx_xserror*
+
+The pseudodata generation code can be run in ROOT as which takes 4 input arguments:
+
+`root -l 'genpseudoBKM.C(1, "BKM10", "Jlab_all", "KM15")'`
+
+##### Input arguments:
