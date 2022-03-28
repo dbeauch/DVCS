@@ -37,7 +37,6 @@ void genpseudoBKM( Bool_t IsModel = 1, TString kFormulation = "BKM10", TString k
 {
    Int_t seed = 400;
    Double_t var = 0.05;
-   Double_t M = 0.938272; //Mass of the proton in GeV
    const Int_t kMaxNumOfDataPts = 24;
 
    // Get Jlab kinematics and phi values from the data file
@@ -259,7 +258,6 @@ void genpseudoBKM( Bool_t IsModel = 1, TString kFormulation = "BKM10", TString k
          gReE = f_global_ReE;
          gReHtilde = f_global_ReHtilde;
          gdvcs = f_global_dvcs;
-         cout<<"set "<<iset+1<<": gReH = "<<gReH<<", gReE = "<<gReE<<", gReHt = "<<gReHtilde<<", gdvcs = "<<gdvcs<<endl;
       }
 
       // Fill graphs with true CFFs and dvcs values ----------------------------
