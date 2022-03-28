@@ -162,11 +162,13 @@ void genpseudoBKM( Bool_t IsModel = 1, TString kFormulation = "BKM10", TString k
    TMultiGraph *mgr_pseudo[200];
 
    ofstream myfile; //output file
-   myfile.open (Form("./pseudo_%s_%s_%s_t2_5pct.csv", kGPDModel.Data(), kFormulation.Data(), kKinematics.Data()));
+   if(IsModel) myfile.open (Form("./pseudo_%s_%s_%s_t2_5pct.csv", kGPDModel.Data(), kFormulation.Data(), kKinematics.Data()));
+   if(!IsModel) myfile.open (Form("./pseudo_ANN-global_%s_%s_t2_5pct.csv", kFormulation.Data(), kKinematics.Data()));
    myfile<<"#Set,index,k,QQ,x_b,t,phi_x,F,sigmaF,varF,ReH,ReE,ReHTilde,dvcs"<<endl;
 
    // File to save the TTree
-   TFile fout(Form("./pseudo_%s_%s_%s_t2_5pct.root", kGPDModel.Data(), kFormulation.Data(), kKinematics.Data()),"recreate");
+   if(IsModel) TFile fout(Form("./pseudo_%s_%s_%s_t2_5pct.root", kGPDModel.Data(), kFormulation.Data(), kKinematics.Data()),"recreate");
+   if(!IsModel) TFile fout(Form("./pseudo_ANN-global_%s_%s_t2_5pct.root", kFormulation.Data(), kKinematics.Data()),"recreate");
 
    struct kin_t {
       Double_t k;
