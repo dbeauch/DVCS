@@ -4,7 +4,9 @@ This folder contains the generated pseudodata using the BKM02 and BKM10 DVCS cro
 
 Pseudodata generation code is *genpseudoBKM.C*. The resulting cross section values are saved in .root and .csv files where the name contains the following information:
 
-*pseudo_inputCFFsmodel_DVCSformulation_KinematicsDetails_twist-approx_xserror*
+```ruby
+pseudo_inputCFFsmodel_DVCSformulation_KinematicsDetails_twist-approx_xserror
+```
 
 The pseudodata generation code takes 4 input arguments. It can be run in ROOT as:
 
