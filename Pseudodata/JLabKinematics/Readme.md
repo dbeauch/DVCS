@@ -14,12 +14,12 @@ The pseudodata generation code takes 4 input arguments. It can be run in ROOT as
 
 * First:
 
-   - 0  CFFs are taken from ANN global fit results which are read from the file ./ANN_GlobalFit_CFFs/BKMXX_ModelFromData.txt where BKMXX is either BKM02 or BKM10 determined by the second argument.
+   - 0   CFFs are taken from ANN global fit results which are read from the file ./ANN_GlobalFit_CFFs/BKMXX_ModelFromData.txt.
+         BKMXX is either BKM02 or BKM10 determined by the second argument.
    - 1  If taking the CFFs from a model.
 * Second:
 
-   Sets the DVCS cross section formulation to be used. At this point we have available the following formulations:
-   
+   Sets the DVCS cross section formulation to be used. At this point we have available the following formulations:   
       - "BKM02"
       - "BKM10"
 * Third:
