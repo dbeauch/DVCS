@@ -1,8 +1,8 @@
 # Cross-Section Based Data Generation
 
-This folder contains the generated pseudodata using the BKM02 and BKM10 DVCS cross section formulations at JLab Hall-A and Hall-B DVCS kinematic sets and phi values which are read from the data file */DataFiles/dvcs_Jlabdata.root*.
+This folder contains the generated pseudodata using the BKM02 and BKM10 DVCS cross section formulations at JLab Hall-A and Hall-B DVCS kinematic sets and phi values which are read from the data file `*/DataFiles/dvcs_Jlabdata.root*`.
 
-Pseudodata generation code is *genpseudoBKM.C*. The resulting cross section values are saved in .root and .csv files where the name contains the following information:
+Pseudodata generation code is `*genpseudoBKM.C*`. The resulting cross section values are saved in `.root` and `.csv` files where the name contains the following information:
 
 ```ruby
 pseudo_inputCFFsmodel_DVCSformulation_KinematicsDetails_twist-approx_xserror
@@ -16,7 +16,7 @@ The pseudodata generation code takes 4 input arguments. It can be run in ROOT as
 
 * First:
 
-   - [0]() - If CFFs are taken from ANN global fit results which are read from the file ./ANN_GlobalFit_CFFs/BKMXX_ModelFromData.txt.
+   - [0]() - If CFFs are taken from ANN global fit results which are read from the file `./ANN_GlobalFit_CFFs/BKMXX_ModelFromData.txt`.
          BKMXX is either BKM02 or BKM10 determined by the second argument.
    - [1]() - If taking the CFFs from a model.
 * Second:
@@ -37,4 +37,4 @@ The pseudodata generation code takes 4 input arguments. It can be run in ROOT as
 
    If using CFFs from a model, it can be defined in this argument. There are two models implemented:
    - "model1" This is an out-of-the-hat model.
-   - "KM15" Modified version of the KM15 model. It is coded up on the file GPD_Models/TGPDModels.h
+   - "KM15" Modified version of the KM15 model. It is coded up on the file `GPD_Models/TGPDModels.h`.
