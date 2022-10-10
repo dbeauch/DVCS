@@ -20,6 +20,7 @@ ClassImp(TFormFactors)				// classimp: necessary for root
 
 // 1. ==================== Dipole parametrization used by Simonetta ===================
 
+
 Double_t TFormFactors::ffGE(Double_t t) {
   Double_t GE = 1.0 / ( 1.0 + ( -t / 0.710649 ) ) / ( 1.0 + ( -t / 0.710649 ) );
   return GE;
