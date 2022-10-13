@@ -62,6 +62,8 @@ void TBKM::SetKinematics( Double_t *kine ) {
     Ktilde_10 = sqrt( tmin - t ) * sqrt( ( 1. - x ) * sqrt( 1. + ee ) + ( ( t - tmin ) * ( ee + 4. * x * ( 1. - x ) ) / 4. / QQ ) ) * sqrt( 1. - y - y * y * ee / 4. )
                 / sqrt( 1. - y + y * y * ee / 4.); // K tilde from 2010 paper
     K = sqrt( 1. - y + y * y * ee / 4.) * Ktilde_10 / sqrt(QQ);
+    lambda = 0.;
+    bigLambda = 0.;
 }
 //_______________________________________________________________________________________________________________________________
 void TBKM::BHLeptonPropagators(Double_t *kine, Double_t phi) {

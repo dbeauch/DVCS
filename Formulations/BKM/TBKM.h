@@ -17,6 +17,7 @@ private:
 	Double_t QQ, x, t, k; // kinematics
 	Double_t ee, y, xi, tmin, s, Gamma;
 	Double_t  K, Ktilde_10, KD;
+	Double_t lambda, bigLambda;
 	Double_t P1, P2; // lepton propagators
 	TComplex H, E, Htilde, Etilde; // Twist-2 CFFs
 
