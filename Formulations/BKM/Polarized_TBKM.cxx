@@ -1,22 +1,28 @@
 //////////////////////////////////////////////////////////////////////////////////
 //                                                                              //
-//  Calculation of unpolarized DVCS cross section using the BKM formulation:    //
+//  Based on unpolarized DVCS cross section using the BKM formulation by        //
+//  Liliet Calero Diaz  -  lc2fc@virginia.edu                                   //                             
+//                                                                              //
+//////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////
+//                                                                              //
+//  Calculation of polarized DVCS cross section using the BKM formulation:      //
 //                                                                              //
 //  - BKM 2002 cross sections (arXiv:hep-ph/0112108v2)                          //
-//      -- BH, DVCDS_UU_02, I_UU_02                                             //
+//      -- BH, DVCDS_LP_02, I_LP_02                                             //
 //                                                                              //
 //  - BKM 2010 cross sections (arXiv:hep-ph/1005.5209v1)                        //
-//      -- DVCS_UU_10, I_UU_10                                                  //
+//      -- DVCS_LP_10, I_LP_10                                                  //
 //                                                                              //
-//  Written by: Liliet Calero Diaz                                              //
+//  Written by: Duncan Beauch and Wyndham White                                 //
 //                                                                              //
-//  Email: lc2fc@virginia.edu                                                   //
+//  Email: drb5wqd@virginia.edu & wrw2ztk@virginia.edu                          //
 //                                                                              //
 //////////////////////////////////////////////////////////////////////////////////
 
 #include "TBKM.h"
 
-//Wyndham's Commit
 
 using namespace std;  	// std namespace: so you can do things like 'cout'
 
@@ -55,6 +61,7 @@ void TBKM::SetKinematics( Double_t *kine ) {
     k = kine[3];      //Electron Beam energy
 
     ee = 4. * M2 * x * x / QQ; // epsilon squared
+    sqrtOnePlusEE = sqrt(1 + ee); // square root of one plus epsilon squared
     y = sqrt(QQ) / ( sqrt(ee) * k );  // lepton energy fraction
     xi = x * ( 1. + t / 2. / QQ ) / ( 2. - x + x * t / QQ ); // Generalized Bjorken variable
     s = 2. * M * k + M2; // Mandelstan variable
@@ -76,7 +83,7 @@ void TBKM::BHLeptonPropagators(Double_t *kine, Double_t phi) {
     P2 = t / QQ - 2. * KD / QQ;
 }
 //_______________________________________________________________________________________________________________________________
-Double_t TBKM::BH_UU(Double_t *kine, Double_t phi, Double_t F1, Double_t F2) { // BH Unpolarized Cross Section
+Double_t TBKM::BH_LP(Double_t *kine, Double_t phi, Double_t F1, Double_t F2) { // BH Unpolarized Cross Section
 
     // Sets the kinematics and gets BH propagators
     BHLeptonPropagators(kine, phi);
@@ -102,7 +109,7 @@ Double_t TBKM::BH_UU(Double_t *kine, Double_t phi, Double_t F1, Double_t F2) { /
 //                   B   K   M   -   2   0   0   2
 //===============================================================================================================================
 //_______________________________________________________________________________________________________________________________
-Double_t TBKM::DVCS_UU_02(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist = "t2") { // Pure DVCS Unpolarized Cross Section
+Double_t TBKM::DVCS_LP_02(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist = "t2") { // Pure DVCS Unpolarized Cross Section
 
     SetKinematics(kine);
 
@@ -128,7 +135,7 @@ Double_t TBKM::DVCS_UU_02(Double_t *kine, Double_t phi, TComplex *t2cffs, TStrin
     return dsigma_DVCS = Gamma * Amp2_DVCS;
 }
 //_______________________________________________________________________________________________________________________________
-Double_t TBKM::I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist = "t2") { // Interference Unpolarized Cross Section (Liuti's style)
+Double_t TBKM::I_LP_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist = "t2") { // Interference Unpolarized Cross Section (Liuti's style)
 
     // Get BH propagators and set the kinematics
     BHLeptonPropagators(kine, phi);
@@ -157,7 +164,10 @@ Double_t TBKM::I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, T
 //                   B   K   M   -   2   0   1   0
 //===============================================================================================================================
 //_______________________________________________________________________________________________________________________________
-Double_t TBKM::DVCS_UU_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist = "t2") { // Pure DVCS Unpolarized Cross Section
+
+//WYNDHAM IS IN THE PROCESS OF MODIFYING THIS
+//EACH LINE OF CODE IS ONE LINE OF EQUATION ON THE PAGE
+Double_t TBKM::DVCS_LP_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist = "t2") { // Pure DVCS Polarized Cross Section
 
     SetKinematics(kine);
 
@@ -168,11 +178,14 @@ Double_t TBKM::DVCS_UU_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TStrin
     if(twist == "t3") f = - 2. * xi / ( 1. + xi );
     if(twist == "t3ww") f = 2. / ( 1. + xi );
 
-    // c_dvcs_unp(F,F*) coefficients (BKM10 eqs. [2.22]) for pure DVCS
-    c_dvcs_ffs = QQ * ( QQ + x * t ) / pow( ( ( 2. - x ) * QQ + x * t ), 2) * ( 4. * ( 1. - x ) * H.Rho2() + 4. * ( 1. - x + ( 2. * QQ + t ) / ( QQ + x * t ) * ee / 4. ) * Htilde.Rho2()
-                 - x * x * pow( ( QQ + t ), 2) / ( QQ * ( QQ + x * t ) ) * ( cdstar(H, E) + cdstar(E, H) ) - x * x * QQ / ( QQ + x * t ) * ( cdstar(Htilde, Etilde) + cdstar(Etilde, Htilde) )
-                 - ( x * x * pow( ( QQ + t ), 2) / ( QQ * ( QQ + x * t ) ) + pow( ( ( 2. - x ) * QQ + x * t ), 2) / QQ / ( QQ + x * t ) * t / 4. / M2 ) * E.Rho2()
-                 - ( x * x * QQ / ( QQ + x * t ) * t / 4. / M2 ) * Etilde.Rho2() );
+    //MODIFIED FROM HERE
+    // c_dvcs_polarized(F,F*) coefficients (BKM10 eqs. [2.23]) for pure DVCS
+    c_dvcs_ffs = QQ * ( QQ + x * t ) / (sqrtOnePlusEE * pow( ( ( 2. - x ) * QQ + x * t ), 2)) * ( 4. * ( 1. - x  + ((3. - 2*x) * QQ + t)/(QQ + x * t) * ee / 4) * (cdstar(H, Htilde) + cdstar(Htilde, H))
+                - (QQ - x * (1 - 2*x) * t) / (QQ + x * t) * x * x * (cdstar(H, Etilde) + cdstar(Etilde, H) + cdstar(Htilde, E) + cdstart(E, Htilde))
+                - (4. * (1 - x) * (QQ + x * t) * t + pow( QQ + t, 2 ) * ee)/() * x * (cdstar(Htilde, E) + cdstar(E, Htilde))
+                - ((2. - x) * QQ + x * t) / (QQ + x * t) * ((x*x * pow( QQ + t, 2 )  / (2*QQ * ((2 - x) * QQ + x * t)) + t / (4*M2)) * x * (cdstar(E, Etilde) + cdstar(Etilde, E)));
+    //TO HERE
+    
     // c_dvcs_unp(Feff,Feff*)
     c_dvcs_effeffs = f * f * c_dvcs_ffs;
     // c_dvcs_unp(Feff,F*)
@@ -189,7 +202,7 @@ Double_t TBKM::DVCS_UU_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TStrin
     return dsigma_DVCS_10 = Gamma * Amp2_DVCS_10;
 }
 //_______________________________________________________________________________________________________________________________
-Double_t TBKM::I_UU_10(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist = "t2") { // Interference Unpolarized Cross Section (Liuti's style)
+Double_t TBKM::I_LP_10(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist = "t2") { // Interference Unpolarized Cross Section (Liuti's style)
 
     // Get BH propagators and set the kinematics
     BHLeptonPropagators(kine, phi);
@@ -208,7 +221,7 @@ Double_t TBKM::I_UU_10(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, T
     return dsigma_I_10 = Gamma * I_10;
 }
 //_______________________________________________________________________________________________________________________________
-void TBKM::ABC_UU_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &B_U_I, Double_t &C_U_I, TString twist = "t2") { // Get A_UU_I, B_UU_I and C_UU_I interference coefficients (BKM10)
+void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &B_U_I, Double_t &C_U_I, TString twist = "t2") { // Get A_UU_I, B_UU_I and C_UU_I interference coefficients (BKM10)
 
     SetKinematics(kine);
 
