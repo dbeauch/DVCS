@@ -183,17 +183,18 @@ Double_t TBKM::DVCS_LP_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TStrin
     c_dvcs_ffs = QQ * ( QQ + x * t ) / (sqrtOnePlusEE * pow( ( ( 2. - x ) * QQ + x * t ), 2)) * ( 4. * ( 1. - x  + ((3. - 2*x) * QQ + t)/(QQ + x * t) * ee / 4) * (cdstar(H, Htilde) + cdstar(Htilde, H))
                 - (QQ - x * (1 - 2*x) * t) / (QQ + x * t) * x * x * (cdstar(H, Etilde) + cdstar(Etilde, H) + cdstar(Htilde, E) + cdstart(E, Htilde))
                 - (4. * (1 - x) * (QQ + x * t) * t + pow( QQ + t, 2 ) * ee)/() * x * (cdstar(Htilde, E) + cdstar(E, Htilde))
-                - ((2. - x) * QQ + x * t) / (QQ + x * t) * ((x*x * pow( QQ + t, 2 )  / (2*QQ * ((2 - x) * QQ + x * t)) + t / (4*M2)) * x * (cdstar(E, Etilde) + cdstar(Etilde, E)));
-    //TO HERE
-    
-    // c_dvcs_unp(Feff,Feff*)
-    c_dvcs_effeffs = f * f * c_dvcs_ffs;
+                - ((2. - x) * QQ + x * t) / (QQ + x * t) * ((x*x * pow( QQ + t, 2 )  / (2.*QQ * ((2 - x) * QQ + x * t)) + t / (4.*M2)) * x * (cdstar(E, Etilde) + cdstar(Etilde, E)));
+
+
+    //ASK ABOUT THIS
     // c_dvcs_unp(Feff,F*)
     c_dvcs_efffs = f * c_dvcs_ffs;
+    
 
-    // dvcs c_n coefficients (BKM10 eqs. [2.18], [2.19])
-    c0_dvcs_10 = 2. * ( 2. - 2. * y + y * y  + ee / 2. * y * y ) / ( 1. + ee ) * c_dvcs_ffs + 16. * K * K / pow(( 2. - x ), 2) / ( 1. + ee ) * c_dvcs_effeffs;
-    c1_dvcs_10 = 8. * K / ( 2. - x ) / ( 1. + ee ) * ( 2. - y ) * c_dvcs_efffs;
+    // dvcs c_n coefficients (BKM10 eqs. [2.20], [2.21])
+    c0_dvcs_10 = 2. * lambda * bigLambda * y * (2 - y) / sqrtOnePlusEE  * c_dvcs_ffs; 
+    c1_dvcs_10 = -1. * 8. * bigLambda * K / ( 2. - x ) / ( 1. + ee ) * ( -1. * lambda * y * sqrtOnePlusEE ) * c_dvcs_efffs;
+    //TO HERE
 
     Amp2_DVCS_10 = 1. / ( y * y * QQ ) * ( c0_dvcs_10 + c1_dvcs_10 * cos( PI - (phi * RAD) ) );
 
