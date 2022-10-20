@@ -165,8 +165,7 @@ Double_t TBKM::I_LP_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, T
 //===============================================================================================================================
 //_______________________________________________________________________________________________________________________________
 
-//WYNDHAM IS IN THE PROCESS OF MODIFYING THIS
-//EACH LINE OF CODE IS ONE LINE OF EQUATION ON THE PAGE
+//Wyndham done with this
 Double_t TBKM::DVCS_LP_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist = "t2") { // Pure DVCS Polarized Cross Section
 
     SetKinematics(kine);
@@ -194,9 +193,12 @@ Double_t TBKM::DVCS_LP_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TStrin
     // dvcs c_n coefficients (BKM10 eqs. [2.20], [2.21])
     c0_dvcs_10 = 2. * lambda * bigLambda * y * (2 - y) / sqrtOnePlusEE  * c_dvcs_ffs; 
     c1_dvcs_10 = -1. * 8. * bigLambda * K / ( 2. - x ) / ( 1. + ee ) * ( -1. * lambda * y * sqrtOnePlusEE ) * c_dvcs_efffs;
-    //TO HERE
+    
 
+    //Is this [2.17]? No e6 & confused on why n goes from 1 to 2 but we don't use 2
     Amp2_DVCS_10 = 1. / ( y * y * QQ ) * ( c0_dvcs_10 + c1_dvcs_10 * cos( PI - (phi * RAD) ) );
+
+    //TO HERE
 
     Amp2_DVCS_10 = GeV2nb * Amp2_DVCS_10; // convertion to nb
 
