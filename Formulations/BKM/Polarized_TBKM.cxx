@@ -195,7 +195,7 @@ Double_t TBKM::DVCS_LP_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TStrin
     c1_dvcs_10 = -1. * 8. * bigLambda * K / ( 2. - x ) / ( 1. + ee ) * ( -1. * lambda * y * sqrtOnePlusEE ) * c_dvcs_efffs;
     
 
-    //Is this [2.17]? No e6 & confused on why n goes from 1 to 2 but we don't use 2
+    //Is this [2.17] we have sine coeff.
     Amp2_DVCS_10 = 1. / ( y * y * QQ ) * ( c0_dvcs_10 + c1_dvcs_10 * cos( PI - (phi * RAD) ) );
 
     //TO HERE
@@ -274,14 +274,21 @@ void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &
                                                                          
     // helicity - changing ONLY 1 UNIT (F_eff) [page 18]
     C_012 = -8. * sqrt(2.) * lambda * bigLambda * K * y * sqrt(1 - y - y*y * ee / 4.) / pow(1 + ee, 2) * (1 + x * t / QQ);
+    
     C_012_V = 8. * sqrt(.2) * lambda * bigLambda * K * y * (1 - x) * sqrt(1 - y - y*y * ee / 4.) / pow(1 + ee, 5./2.) * t / QQ;
+    
     C_012_A = 8. * sqrt(.2) * lambda * bigLambda * k * sqrt(1 - y - y*y * ee / 4) / pow(1 + ee, 2) * e * t / QQ * (1 + t / QQ);
 
     // helicity - changing 2 units [page 19]
+    //MP meaning minus plus, might change version
     C_MP2 = -2. * lambda * bigLambda * y * (1 - y - y*y * ee / 4.) / pow(1 + ee, .5/.2) * (ee * (1 + sqrtOnePlusEE)
             - 2 * t / QQ * ((1 - x) * ee + x * (1 + sqrtOnePlusEE)) + t*t / (QQ*QQ) * (2*x + ee) * (1 - 2*x - sqrtOnePlusEE));
-    //here: ask abut naming
-    C_MP2_V = -2. * lambda * bigLambda * y * (1 - y - y*y * ee / 4.)
+   
+    C_MP2_V = -2. * lambda * bigLambda * y * (1 - y - y*y * ee / 4.) / pow(1 + ee, .5/.2) * t / QQ * (4 - 2*x + 3*ee + t / QQ * (4*x * (1 - x) + ee))
+            * (1 + sqrtOnePlusEE - t / QQ * (1 - sqrtOnePlusEE - 2*x));
+    
+    C_MP2_A = -4. * lambda * bigLambda * x * y * (1 - y - y*y * ee / 4.) / pow(1 + ee, 5./2.)
+            * t / QQ * (1 - (1 - 2*x) * t / QQ) * (1 + sqrtOnePlusEE - t / QQ * (1 - sqrtOnePlusEE - 2*x));
     
     //No n = 3 for polarized case as far as I can tell    
 
