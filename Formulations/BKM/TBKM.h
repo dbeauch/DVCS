@@ -15,7 +15,7 @@ private:
 	Double_t GeV2nb = .389379*1000000; // Conversion from 1/GeV2 to NanoBarn
 
 	Double_t QQ, x, t, k; // kinematics
-	Double_t ee, y, xi, tmin, s, Gamma;
+	Double_t ee, y, xi, tmin, s, Gamma, sqrtOnePlusEE;
 	Double_t  K, Ktilde_10, KD;
 	Double_t lambda, bigLambda;
 	Double_t P1, P2; // lepton propagators
@@ -50,13 +50,13 @@ public:
 	void SetKinematics(Double_t *kine);
 	void BHLeptonPropagators(Double_t *kine, Double_t phi);
 	//BKM02
-	Double_t BH_UU(Double_t *kine, Double_t phi, Double_t F1, Double_t F2);
-	Double_t DVCS_UU_02(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist);
-	Double_t I_UU_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist);
+	Double_t BH_LP(Double_t *kine, Double_t phi, Double_t F1, Double_t F2);
+	Double_t DVCS_LP_02(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist);
+	Double_t I_LP_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist);
 	//BKM10
-	Double_t DVCS_UU_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist);
-	Double_t I_UU_10(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist);
-	void ABC_UU_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &B_U_I, Double_t &C_U_I, TString twist);
+	Double_t DVCS_LP_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist);
+	Double_t I_LP_10(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, TComplex *t2cffs, TString twist);
+	void ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &B_U_I, Double_t &C_U_I, TString twist);
 
 	ClassDef(TBKM,1);
 
