@@ -264,10 +264,14 @@ void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &
               * ( 1. - y - ee / 4. * y * y ) * ( 4. - 2. * x + 3. * ee + t / QQ * ( 4. * x * ( 1. - x ) + ee ) ) );
     // n = 2 -----------------------------------------
     // helicity - conserving (F)
-    C_112 = 8. * ( 2. - y ) * ( 1. - y - ee / 4. * y * y ) / pow(( 1. + ee ), 2) * ( 2. * ee / sqrt( 1. + ee ) / ( 1. + sqrt( 1. + ee ) ) * pow(Ktilde_10, 2) / QQ + x * t * ( t - tmin ) / QQ / QQ
-            * ( 1. - x - ( sqrt( 1. + ee ) - 1. ) / 2. + ee / 2. / x ) );
-    C_112_V = 8. * ( 2. - y ) * ( 1. - y - ee / 4. * y * y ) / pow(( 1. + ee ), 2) * x * t / QQ * ( 4. * pow(Ktilde_10, 2) / sqrt( 1. + ee ) / QQ + ( 1. + sqrt( 1. + ee ) - 2. * x ) / 2. * ( 1. + t / QQ ) * ( t - tmin ) / QQ );
-    C_112_A = 4. * ( 2. - y ) * ( 1. - y - ee / 4. * y * y ) / pow(( 1. + ee ), 2) * t / QQ * ( 4. * ( 1. - 2. * x ) * pow(Ktilde_10, 2) / sqrt( 1. + ee ) / QQ - ( 3. -  sqrt( 1. + ee ) - 2. * x + ee / x ) * x * ( t - tmin ) / QQ );
+    //Wyndham starting work here
+    C_112 = -1. * 4. * lambda * bigLambda * y * (1 - y - ee / 4 * y*y) / pow(1 + ee, 5./2.) * (x * t / QQ - (1 - t / QQ) * ee / 2)
+                                                                                                            * (1 - sqrtOnePlusEE - (1 + sqrtOnePlusEE - 2*x) * t / QQ);
+    C_112_V = -1. * 2. * lambda * bigLambda * y * (1 - y - ee / 4 * y*y) / pow(1 + ee, 5./2.) * (4 - 2*x + 3*ee) * t / QQ * (1 + (4 * (1 - x) * x + ee) / (4 - 2*x + 3*ee) * t / QQ)
+                                                                                                            * (sqrtOnePlusEE - 1 + (1 + sqrtOnePlusEE - 2*x) * t / QQ);
+    C_112_A = 4. * lambda * bigLambda * (1 - y - ee / 4 * y*y) / pow(1 + ee, 5./2.) * x * t / QQ * (1 - (1 - 2*x) * t / QQ)
+                                                                                                            * (1 - sqrtOnePlusEE - (1 + sqrtOnePlusEE - 2*x) * t / QQ);
+    //Done through here                                                                        
     // helicity - changing (F_eff)
     C_012 = -8. * sqrt(2.) * K * ( 2. - y ) * sqrt( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * ( 1. + ee / 2. ) * ( 1. + ( 1. + ee / 2. / x ) / ( 1. + ee / 2. ) * x * t / QQ );
     C_012_V = 8. * sqrt(2.) * K * ( 2. - y ) * sqrt( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * x * t / QQ * ( 1. - ( 1. - 2. * x ) * t / QQ );
