@@ -213,10 +213,10 @@ Double_t TBKM::I_LP_10(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, T
     // Set the CFFs
     SetCFFs(t2cffs); // Etilde CFF does not appear in the interference
 
-    // Get A_UU_I, B_UU_I and C_UU_I interference coefficients
-    ABC_UU_I_10(kine, phi, A_U_I, B_U_I, C_U_I, twist);
+    // Get A_LP_I, B_LP_I and C_LP_I interference coefficients
+    ABC_LP_I_10(kine, phi, A_U_I, B_U_I, C_U_I, twist);
 
-    // BH-DVCS interference squared amplitude
+    // BH-DVCS interference squared amplitude [at 2.34 for unpolarized?] (where is the polarized analog of this)? Does it not change?
     I_10 = 1. / ( x * y * y * y * t * P1 * P2 ) * ( A_U_I * ( F1 * H.Re() - t / 4. / M2 * F2 * E.Re() ) + B_U_I * ( F1 + F2 ) * ( H.Re() + E.Re() ) + C_U_I * ( F1 + F2 ) * Htilde.Re() );
 
     I_10 = GeV2nb * I_10; // convertion to nb
@@ -236,7 +236,8 @@ void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &
     // Interference coefficients  (BKM10 Appendix A.2)
     // n = 0 -----------------------------------------
     // helicity - conserving (F)
-    C_110 = - 4. * lambda * bigLambda * y * (1 + sqrt(1 + ee)) / pow(1 + ee, 5./2.); //notdone
+    C_110 = - 4. * lambda * bigLambda * y * (1 + sqrtOnePlusEE) / pow(1 + ee, 5./2.) * (pow(2 - y, 2) * pow(Ktilde_10, 2) / QQ + (1 - y + ee * y * y / 4.)
+                                                                                     * (x * t / QQ - (1 - t / QQ) * ee / 2.) * (1 + (sqrtOnePlusEE - 1 + 2*x) / (1 + sqrtOnePlusEE) * t / QQ)); //done up to here
     C_110_V = 8. * ( 2. - y ) / pow(( 1. + ee ), 2) * x * t / QQ * ( ( 2. - y ) * ( 2. - y ) / sqrt( 1. + ee ) * Ktilde_10 * Ktilde_10 / QQ
               + ( 1. - y - ee / 4. * y * y ) * ( 1. + sqrt( 1. + ee ) ) / 2. * ( 1. + t / QQ ) * ( 1. + ( sqrt ( 1. + ee ) - 1. + 2. * x ) / ( 1. + sqrt( 1. + ee ) ) * t / QQ ) );
     C_110_A = 8. * ( 2. - y ) / pow(( 1. + ee ), 2) * t / QQ * ( ( 2. - y ) * ( 2. - y ) / sqrt( 1. + ee ) * Ktilde_10 * Ktilde_10 / QQ * ( 1. + sqrt( 1. + ee ) - 2. * x ) / 2.
