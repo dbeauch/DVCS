@@ -220,7 +220,7 @@ void TBKM::ABC_UU_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &
     // Interference coefficients  (BKM10 Appendix A.2)
     // n = 0 -----------------------------------------
     // helicity - conserving (F)
-    C_110 = - 4. * lambda * bigLambda * y * (1 + sqrt(1 + ee)) / pow(1 + ee, 5./2.); //notdone
+    C_110 = - 4. * lambda * bigLambda * y * (1 + sqrt(1 + ee)) / pow(1 + ee, 5./2.) * (pow(2. - y, 2.) * Ktilde_10*Ktilde_10 / QQ + (1 - y + ee/4. * y*y) * (x*t/QQ - ee/2. * (1 - t / QQ)) * 1 + (sqrt(1. + ee) - 1 + 2.*x)/(1 + sqrt(1 + ee)) * t/QQ);
     C_110_V = 8. * ( 2. - y ) / pow(( 1. + ee ), 2) * x * t / QQ * ( ( 2. - y ) * ( 2. - y ) / sqrt( 1. + ee ) * Ktilde_10 * Ktilde_10 / QQ
               + ( 1. - y - ee / 4. * y * y ) * ( 1. + sqrt( 1. + ee ) ) / 2. * ( 1. + t / QQ ) * ( 1. + ( sqrt ( 1. + ee ) - 1. + 2. * x ) / ( 1. + sqrt( 1. + ee ) ) * t / QQ ) );
     C_110_A = 8. * ( 2. - y ) / pow(( 1. + ee ), 2) * t / QQ * ( ( 2. - y ) * ( 2. - y ) / sqrt( 1. + ee ) * Ktilde_10 * Ktilde_10 / QQ * ( 1. + sqrt( 1. + ee ) - 2. * x ) / 2.
