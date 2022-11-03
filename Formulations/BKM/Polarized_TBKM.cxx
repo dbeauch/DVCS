@@ -244,16 +244,27 @@ void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &
     C_010_V = 8. * sqrt(2.) * lambda * bigLambda * K * y * sqrt( 1. - y - ee / 4. * y * y ) / pow(1. + ee, 2) * t / QQ * (x - t/QQ * (1. - 2.*x));
     C_010_A = 8. * sqrt(2.) * lambda * bigLambda * K * y * sqrt( 1. - y - ee / 4. * y * y ) / pow(1. + ee, 2) * t*x / QQ * (1. + t/QQ);
     // helicity - changing (F_eff) by two units
-    C_210 = 4. * lambda * bigLambda * y / pow(1 + ee, 5./2.) * (Ktilde_10*Ktilde_10/QQ * pow(2. - y, 2) * (1. - sqrt(1. + ee)) + 0.5 * (1. - y - y*y*ee/4.) * (2.*x*t/QQ - (1. - t/QQ)) * (1. - sqrt(1. + ee) - t/QQ * (1. - 2.*x + sqrt(1. + ee))));
-    C_210_V = 2. * lambda * bigLambda * y / pow(1. + ee, 5./2.) * t/QQ * ((4. - 2.*x + 3.*ee) * (1. - y - y*y*ee/4.) * (1 + t/QQ * (4. * x * (1. - x) + ee) / (4. - 2.*x + 3*ee)) * (sqrt(1. + ee) - 1. + t/QQ * (1. - 2. * x + sqrt(1. + ee))) + 2. * pow(2. - y, 2) * (sqrt(1. + ee) - 1. + 2*x) * Ktilde_10*Ktilde_10/QQ);
+    C_MP0 = 4. * lambda * bigLambda * y / pow(1 + ee, 5./2.) * (Ktilde_10*Ktilde_10/QQ * pow(2. - y, 2) * (1. - sqrt(1. + ee)) + 0.5 * (1. - y - y*y*ee/4.) * (2.*x*t/QQ - (1. - t/QQ)) * (1. - sqrt(1. + ee) - t/QQ * (1. - 2.*x + sqrt(1. + ee))));
+    C_MP0_V = 2. * lambda * bigLambda * y / pow(1. + ee, 5./2.) * t/QQ * ((4. - 2.*x + 3.*ee) * (1. - y - y*y*ee/4.) * (1 + t/QQ * (4. * x * (1. - x) + ee) / (4. - 2.*x + 3*ee)) * (sqrt(1. + ee) - 1. + t/QQ * (1. - 2. * x + sqrt(1. + ee))) + 2. * pow(2. - y, 2) * (sqrt(1. + ee) - 1. + 2*x) * Ktilde_10*Ktilde_10/QQ);
 
     // n = 1
-    C_011_V = 16. * sqrt(2.) * sqrt( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * x * t / QQ * ( pow( Ktilde_10 * ( 2. - y ), 2) / QQ + pow(( 1. - ( 1. - 2. * x ) * t / QQ ), 2) * ( 1. - y - ee / 4. * y * y ) );
-    C_011_A = 8. * sqrt(2.) * sqrt( 1. - y - ee / 4. * y * y ) / pow(sqrt( 1. + ee ), 5) * t / QQ * ( pow( Ktilde_10 * ( 2. - y ), 2) * ( 1. - 2. * x ) / QQ + ( 1. - ( 1. - 2. * x ) * t / QQ )
-              * ( 1. - y - ee / 4. * y * y ) * ( 4. - 2. * x + 3. * ee + t / QQ * ( 4. * x * ( 1. - x ) + ee ) ) );
+    //tPrime is t - tmin
+    C_111 = -4. * lambda * bigLambda * K * y * (2 - y) / pow(1 + ee, 5./2.) * (1 + sqrtOnePlusEE - ee) * (1 - (1 - 2*x * (2 + sqrtOnePlusEE) / (1 + sqrtOnePlusEE - ee)) * t / QQ);
+    C_111_V = 8. * lambda * bigLambda * K * (2-y) * y / pow(1 + ee, 2) * (sqrtOnePlusEE + 2*(1 - x)) * t / QQ * (1 - (1 + (1 - ee) / (sqrtOnePlusEE) - 2*x * (1 + (4*(1 - x)) / (sqrtOnePlusEE))) / (2*(sqrtOnePlusEE + 2*(1 - x))) * (t - tmin) / QQ);
+    C_111_A = 16. * lambda * bigLambda * K * (2 - y) * y / pow(1 + ee, 5./2.) * x * t / QQ * (1 - (1 - 2*x) * t / QQ);
+
+    C_011 = -8. * sqrt(2.) * lambda * bigLambda * K * y * (1 - y) * sqrt(1 - y - y*y * ee / 4.) / pow(1 + ee, 2) * t / QQ;
+    C_011_V = 8. * sqrt(2.) * lambda * bigLambda * y * (2 - y) * sqrt(1 - y - y*y * ee / 4.) / pow(1 + ee, 2) * t * Ktilde_10*K_tilde_10 / (QQ * QQ);
+    //No C_011_A
+
+    C_MP1 = 4. * lambda * bigLambda * K * y * (2 - y) / pow(1 + ee, 5./2.) * (1 - ee - sqrtOnePlusEE - t / QQ * (1 - ee - sqrtOnePlusEE - 2*x * (2 - sqrtOnePlusEE)));
+    C_MP1_V = -4. * lambda * bigLambda * y * (2 - y) / pow(1 + ee, 5./2.) * t / QQ * (5 - 4*x + 3*ee - sqrtOnePlusEE 
+            - t / QQ * (1 - ee - sqrtOnePlusEE - 2*x * (4 - 4*x - sqrtOnePlusEE)));
+    C_MP1_A = -16. * lambda * bigLambda * x * y * (2 - y) / pow(1 + ee, 5./2.) * t / QQ * (1 - (1 - 2*x) * t / QQ);
+
     // n = 2 -----------------------------------------
     // helicity - conserving (F)
-    //Wyndham starting work here
+    //Wyndham done here
     C_112 = -1. * 4. * lambda * bigLambda * y * (1 - y - ee / 4 * y*y) / pow(1 + ee, 5./2.) * (x * t / QQ - (1 - t / QQ) * ee / 2)
                                                                                                             * (1 - sqrtOnePlusEE - (1 + sqrtOnePlusEE - 2*x) * t / QQ);
     C_112_V = -1. * 2. * lambda * bigLambda * y * (1 - y - ee / 4 * y*y) / pow(1 + ee, 5./2.) * (4 - 2*x + 3*ee) * t / QQ * (1 + (4 * (1 - x) * x + ee) / (4 - 2*x + 3*ee) * t / QQ)
@@ -264,16 +275,16 @@ void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &
     // helicity - changing ONLY 1 UNIT (F_eff) [page 18]
     C_012 = -8. * sqrt(2.) * lambda * bigLambda * K * y * sqrt(1 - y - y*y * ee / 4.) / pow(1 + ee, 2) * (1 + x * t / QQ);
     
-    C_012_V = 8. * sqrt(.2) * lambda * bigLambda * K * y * (1 - x) * sqrt(1 - y - y*y * ee / 4.) / pow(1 + ee, 5./2.) * t / QQ;
+    C_012_V = 8. * sqrt(2.) * lambda * bigLambda * K * y * (1 - x) * sqrt(1 - y - y*y * ee / 4.) / pow(1 + ee, 5./2.) * t / QQ;
     
-    C_012_A = 8. * sqrt(.2) * lambda * bigLambda * k * sqrt(1 - y - y*y * ee / 4) / pow(1 + ee, 2) * e * t / QQ * (1 + t / QQ);
+    C_012_A = 8. * sqrt(2.) * lambda * bigLambda * k * sqrt(1 - y - y*y * ee / 4) / pow(1 + ee, 2) * e * t / QQ * (1 + t / QQ);
 
     // helicity - changing 2 units [page 19]
     //MP meaning minus plus, might change version
-    C_MP2 = -2. * lambda * bigLambda * y * (1 - y - y*y * ee / 4.) / pow(1 + ee, .5/.2) * (ee * (1 + sqrtOnePlusEE)
+    C_MP2 = -2. * lambda * bigLambda * y * (1 - y - y*y * ee / 4.) / pow(1 + ee, 5./2.) * (ee * (1 + sqrtOnePlusEE)
             - 2 * t / QQ * ((1 - x) * ee + x * (1 + sqrtOnePlusEE)) + t*t / (QQ*QQ) * (2*x + ee) * (1 - 2*x - sqrtOnePlusEE));
    
-    C_MP2_V = -2. * lambda * bigLambda * y * (1 - y - y*y * ee / 4.) / pow(1 + ee, .5/.2) * t / QQ * (4 - 2*x + 3*ee + t / QQ * (4*x * (1 - x) + ee))
+    C_MP2_V = -2. * lambda * bigLambda * y * (1 - y - y*y * ee / 4.) / pow(1 + ee, 5./2.) * t / QQ * (4 - 2*x + 3*ee + t / QQ * (4*x * (1 - x) + ee))
             * (1 + sqrtOnePlusEE - t / QQ * (1 - sqrtOnePlusEE - 2*x));
     
     C_MP2_A = -4. * lambda * bigLambda * x * y * (1 - y - y*y * ee / 4.) / pow(1 + ee, 5./2.)

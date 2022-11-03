@@ -34,8 +34,8 @@ private:
 	Double_t dsigma_BH, dsigma_DVCS, dsigma_I; // 4-fold differential cross sections BKM02
 	Double_t dsigma_DVCS_10, dsigma_I_10; // 4-fold differential cross sections BKM10
 	// BKM10 interference coefficients
-	Double_t C_110, C_110_V, C_110_A, C_010, C_010_V, C_010_A; // n = 0
-	Double_t C_111, C_111_V, C_111_A, C_011, C_011_V, C_011_A; // n = 1
+	Double_t C_110, C_110_V, C_110_A, C_010, C_010_V, C_010_A, C_MP0, C_MP0_V; // n = 0
+	Double_t C_111, C_111_V, C_111_A, C_011, C_011_V, C_011_A, C_MP1, C_MP1_V, C_MP1_A; // n = 1
 	Double_t C_112, C_112_V, C_112_A, C_012, C_012_V, C_012_A, C_MP2, C_MP2_V, C_MP2_A; // n = 2
 	Double_t C_113, C_113_V, C_113_A; // n = 3
 	Double_t A_U_I, B_U_I, C_U_I; // A_UU_I, B_UU_I, C_UU_I interference coefficients in BKM10
