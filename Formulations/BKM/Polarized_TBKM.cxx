@@ -17,7 +17,7 @@
 //                                                                              //
 //  Written by: Duncan Beauch and Wyndham White                                 //
 //                                                                              //
-//  Email: drb5wqd@virginia.edu & wrw2ztk@virginia.edu                          //
+//  Emails: drb5wqd@virginia.edu & wrw2ztk@virginia.edu                          //
 //                                                                              //
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -184,23 +184,27 @@ Double_t TBKM::DVCS_LP_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TStrin
                 - (4. * (1 - x) * (QQ + x * t) * t + pow( QQ + t, 2 ) * ee)/() * x * (cdstar(Htilde, E) + cdstar(E, Htilde))
                 - ((2. - x) * QQ + x * t) / (QQ + x * t) * ((x*x * pow( QQ + t, 2 )  / (2.*QQ * ((2 - x) * QQ + x * t)) + t / (4.*M2)) * x * (cdstar(E, Etilde) + cdstar(Etilde, E)));
 
-
-    //ASK ABOUT THIS
     // c_dvcs_unp(Feff,F*)
     c_dvcs_efffs = f * c_dvcs_ffs;
     
 
+    //The below equations in the paper have a split of real and imaginary, include that 
+    //Liliet doesn't seem to distinguish
     // dvcs c_n coefficients (BKM10 eqs. [2.20], [2.21])
     c0_dvcs_10 = 2. * lambda * bigLambda * y * (2 - y) / sqrtOnePlusEE  * c_dvcs_ffs; 
     c1_dvcs_10 = -1. * 8. * bigLambda * K / ( 2. - x ) / ( 1. + ee ) * ( -1. * lambda * y * sqrtOnePlusEE ) * c_dvcs_efffs;
+
+    //dvcs s_1 coefficient [2.21]
+    s1_dvcs_10 = -1. * 8. * bigLambda * K / ( 2. - x ) / ( 1. + ee ) * (2 - y) * c_dvcs_efffs;
     
 
     //Is this [2.17] we have sine coeff.
-    Amp2_DVCS_10 = 1. / ( y * y * QQ ) * ( c0_dvcs_10 + c1_dvcs_10 * cos( PI - (phi * RAD) ) );
+    //No e^6, why?
+    Amp2_DVCS_10 = 1. / ( y * y * QQ ) * ( c0_dvcs_10 + c1_dvcs_10 * cos( PI - (phi * RAD) ) + s1_dvcs_10 * sin( PI - (phi * RAD) ) );
 
     //TO HERE
 
-    Amp2_DVCS_10 = GeV2nb * Amp2_DVCS_10; // convertion to nb
+    Amp2_DVCS_10 = GeV2nb * Amp2_DVCS_10; // conversion to nb
 
     return dsigma_DVCS_10 = Gamma * Amp2_DVCS_10;
 }
@@ -245,6 +249,7 @@ void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &
     C_010_V = 8. * sqrt(2.) * lambda * bigLambda * K * y * sqrt( 1. - y - ee / 4. * y * y ) / pow(1. + ee, 2) * t / QQ * (x - t/QQ * (1. - 2.*x));
     C_010_A = 8. * sqrt(2.) * lambda * bigLambda * K * y * sqrt( 1. - y - ee / 4. * y * y ) / pow(1. + ee, 2) * t*x / QQ * (1. + t/QQ);
     // helicity - changing (F_eff) by two units
+    //MP meaning minus plus, might change version
     C_MP0 = 4. * lambda * bigLambda * y / pow(1 + ee, 5./2.) * (Ktilde_10*Ktilde_10/QQ * pow(2. - y, 2) * (1. - sqrt(1. + ee)) + 0.5 * (1. - y - y*y*ee/4.) * (2.*x*t/QQ - (1. - t/QQ)) * (1. - sqrt(1. + ee) - t/QQ * (1. - 2.*x + sqrt(1. + ee))));
     C_MP0_V = 2. * lambda * bigLambda * y / pow(1. + ee, 5./2.) * t/QQ * ((4. - 2.*x + 3.*ee) * (1. - y - y*y*ee/4.) * (1 + t/QQ * (4. * x * (1. - x) + ee) / (4. - 2.*x + 3*ee)) * (sqrt(1. + ee) - 1. + t/QQ * (1. - 2. * x + sqrt(1. + ee))) + 2. * pow(2. - y, 2) * (sqrt(1. + ee) - 1. + 2*x) * Ktilde_10*Ktilde_10/QQ);
 
@@ -291,7 +296,7 @@ void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &
     S_012_V = -8. * sqrt(2.)*bigLambda*K * (2. - y) * (1. - x) * sqrt(1. - y - y*y*ee/4.) / pow(1 + ee, 5./2.) * t/QQ;
     S_012_A = -8. * sqrt(2.)*bigLambda*K * (2. - y) * sqrt(1. - y - y*y*ee/4.) / pow(1. + ee, 5./2.) * x*t/QQ * (1. + t/QQ);
     // helicity - changing 2 units [page 19]
-    //MP meaning minus plus, might change version
+
     C_MP2 = -2. * lambda * bigLambda * y * (1 - y - y*y * ee / 4.) / pow(1 + ee, 5./2.) * (ee * (1 + sqrtOnePlusEE)
             - 2 * t / QQ * ((1 - x) * ee + x * (1 + sqrtOnePlusEE)) + t*t / (QQ*QQ) * (2*x + ee) * (1 - 2*x - sqrtOnePlusEE));
 
@@ -318,7 +323,7 @@ void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &
             * ( C_011 + C_011_A ) ) * cos( PI - (phi * RAD) ) + ( C_112 + C_112_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * ( C_012 + C_012_A ) ) * cos( 2. * ( PI - (phi * RAD) ) )
             + ( C_113 + C_113_A ) * cos( 3. * ( PI - (phi * RAD) ) ) );
     
-    // TODO: Decipher how S changes from C
+    // TODO: Decipher how S changes from C [eqns. ]
     S_A_U_I = C_110 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_010 + ( C_111 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_011 ) * cos( PI - (phi * RAD) )
             + ( C_112 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_012 ) * cos( 2. * ( PI - (phi * RAD) ) ) + C_113 * cos( 3. * ( PI - (phi * RAD) ) );
     S_B_U_I = xi / ( 1. + t / 2. / QQ ) * ( C_110_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_010_V + ( C_111_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_011_V ) * cos( PI - (phi * RAD) )
