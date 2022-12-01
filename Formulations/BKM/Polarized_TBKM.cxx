@@ -165,7 +165,6 @@ Double_t TBKM::I_LP_02(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, T
 //===============================================================================================================================
 //_______________________________________________________________________________________________________________________________
 
-//Wyndham done with this
 Double_t TBKM::DVCS_LP_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TString twist = "t2") { // Pure DVCS Polarized Cross Section
 
     SetKinematics(kine);
@@ -177,7 +176,6 @@ Double_t TBKM::DVCS_LP_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TStrin
     if(twist == "t3") f = - 2. * xi / ( 1. + xi );
     if(twist == "t3ww") f = 2. / ( 1. + xi );
 
-    //MODIFIED FROM HERE
     // c_dvcs_polarized(F,F*) coefficients (BKM10 eqs. [2.23]) for pure DVCS
     c_dvcs_ffs = QQ * ( QQ + x * t ) / (sqrtOnePlusEE * pow( ( ( 2. - x ) * QQ + x * t ), 2)) * ( 4. * ( 1. - x  + ((3. - 2*x) * QQ + t)/(QQ + x * t) * ee / 4) * (cdstar(H, Htilde) + cdstar(Htilde, H))
                 - (QQ - x * (1 - 2*x) * t) / (QQ + x * t) * x * x * (cdstar(H, Etilde) + cdstar(Etilde, H) + cdstar(Htilde, E) + cdstart(E, Htilde))
@@ -187,7 +185,6 @@ Double_t TBKM::DVCS_LP_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TStrin
     // c_dvcs_unp(Feff,F*)
     c_dvcs_efffs = f * c_dvcs_ffs;
     
-
     //The below equations in the paper have a split of real and imaginary, include that 
     //Liliet doesn't seem to distinguish
     // dvcs c_n coefficients (BKM10 eqs. [2.20], [2.21])
