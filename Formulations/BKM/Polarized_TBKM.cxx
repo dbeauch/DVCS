@@ -301,7 +301,7 @@ void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &
             * t / QQ * (1 - (1 - 2*x) * t / QQ) * (1 + sqrtOnePlusEE - t / QQ * (1 - sqrtOnePlusEE - 2*x));
     
     // n = 3 -----------------------------------------
-    //No C terms in polarized case
+    // No C terms in polarized case
     // helicity - conserving (F)
     S_113 = -4.*bigLambda*K * (1. - y - ee/4.*y*y) / pow(1. + ee, 3) * (1. + sqrtOnePlusEE - 2.*x) / (1. + sqrtOnePlusEE) * ee*tPrime/QQ;
     S_113_V = 4.*bigLamda*K * (1. - y - ee/4.*y*y) / pow(1. + ee, 3) * (4. * (1. - x) * x + ee) * t*tPrime/(QQ*QQ);

@@ -38,6 +38,9 @@ private:
 	Double_t C_111, C_111_V, C_111_A, C_011, C_011_V, C_011_A, C_MP1, C_MP1_V, C_MP1_A; // n = 1
 	Double_t C_112, C_112_V, C_112_A, C_012, C_012_V, C_012_A, C_MP2, C_MP2_V, C_MP2_A; // n = 2
 	Double_t C_113, C_113_V, C_113_A; // n = 3
+	Double_t ; S_111, S_111_V, S_111_A, S_011, S_011_V, S_011_A; // n = 1
+	Double_t ; S_112, S_112_V, S_112_A, S_012, S_012_V, S_012_A; // n = 2
+	Double_t ; S_113, S_113_V, S_113_A; // n = 3
 	Double_t A_U_I, B_U_I, C_U_I; // A_UU_I, B_UU_I, C_UU_I interference coefficients in BKM10
 
 public:
