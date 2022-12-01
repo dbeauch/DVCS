@@ -41,7 +41,8 @@ private:
 	Double_t ; S_111, S_111_V, S_111_A, S_011, S_011_V, S_011_A; // n = 1
 	Double_t ; S_112, S_112_V, S_112_A, S_012, S_012_V, S_012_A; // n = 2
 	Double_t ; S_113, S_113_V, S_113_A; // n = 3
-	Double_t A_U_I, B_U_I, C_U_I; // A_UU_I, B_UU_I, C_UU_I interference coefficients in BKM10
+	Double_t A_U_I, B_U_I, C_U_I; // A_UU_I, B_UU_I, C_UU_I unpolarized interference coefficients in BKM10
+	Double_t C_A_U_I, C_B_U_I, C_C_U_I, S_A_U_I, S_B_U_I, S_C_U_I; // A_UU_I, B_UU_I, C_UU_I polarized interference coefficients in BKM10 for C & S terms
 
 public:
 

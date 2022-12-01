@@ -214,17 +214,18 @@ Double_t TBKM::I_LP_10(Double_t *kine, Double_t phi, Double_t F1, Double_t F2, T
     SetCFFs(t2cffs); // Etilde CFF does not appear in the interference
 
     // Get A_LP_I, B_LP_I and C_LP_I interference coefficients
-    ABC_LP_I_10(kine, phi, A_U_I, B_U_I, C_U_I, twist);
+    ABC_LP_I_10(kine, phi, C_A_U_I, C_B_U_I, C_C_U_I, twist);
 
     // BH-DVCS interference squared amplitude [at 2.34 for unpolarized?] (where is the polarized analog of this)? Does it not change?
-    I_10 = 1. / ( x * y * y * y * t * P1 * P2 ) * ( A_U_I * ( F1 * H.Re() - t / 4. / M2 * F2 * E.Re() ) + B_U_I * ( F1 + F2 ) * ( H.Re() + E.Re() ) + C_U_I * ( F1 + F2 ) * Htilde.Re() );
+    // TODO: Add S terms
+    I_10 = 1. / ( x * y * y * y * t * P1 * P2 ) * ( C_A_U_I * ( F1 * H.Re() - t / 4. / M2 * F2 * E.Re() ) + C_B_U_I * ( F1 + F2 ) * ( H.Re() + E.Re() ) + C_C_U_I * ( F1 + F2 ) * Htilde.Re() );
 
     I_10 = GeV2nb * I_10; // convertion to nb
 
     return dsigma_I_10 = Gamma * I_10;
 }
 //_______________________________________________________________________________________________________________________________
-void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &B_U_I, Double_t &C_U_I, TString twist = "t2") { // Get A_UU_I, B_UU_I and C_UU_I interference coefficients (BKM10)
+void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &B_U_I, Double_t &C_U_I, TString twist = "t2") { // Get A_UU_I, B_UU_I and C_UU_I interference coefficients for C & S(BKM10)
 
     SetKinematics(kine);
 
@@ -307,12 +308,22 @@ void TBKM::ABC_LP_I_10(Double_t *kine, Double_t phi, Double_t &A_U_I, Double_t &
     S_113_V = 4.*bigLamda*K * (1. - y - ee/4.*y*y) / pow(1. + ee, 3) * (4. * (1. - x) * x + ee) * t*tPrime/(QQ*QQ);
     S_113_A = -8.*bigLambda*K * (1. - y - ee/4.*y*y) / pow(1. + ee, 3) * (1. + sqrtOnePlusEE - 2.*x) * x*t*tPrime/(QQ*QQ);
 
-    // A_U_I, B_U_I and C_U_I
-    A_U_I = C_110 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_010 + ( C_111 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_011 ) * cos( PI - (phi * RAD) )
+    // A_U_I, B_U_I and C_U_I [eq 2.37]
+    // Replace some C-terms with S-terms in S section
+    C_A_U_I = C_110 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_010 + ( C_111 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_011 ) * cos( PI - (phi * RAD) )
             + ( C_112 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_012 ) * cos( 2. * ( PI - (phi * RAD) ) ) + C_113 * cos( 3. * ( PI - (phi * RAD) ) );
-    B_U_I = xi / ( 1. + t / 2. / QQ ) * ( C_110_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_010_V + ( C_111_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_011_V ) * cos( PI - (phi * RAD) )
+    C_B_U_I = xi / ( 1. + t / 2. / QQ ) * ( C_110_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_010_V + ( C_111_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_011_V ) * cos( PI - (phi * RAD) )
             + ( C_112_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_012_V ) * cos( 2. * ( PI - (phi * RAD) ) ) + C_113_V * cos( 3. * ( PI - (phi * RAD) ) ) );
-    C_U_I = xi / ( 1. + t / 2. / QQ ) * ( C_110 + C_110_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * ( C_010 + C_010_A ) + ( C_111 + C_111_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f
+    C_C_U_I = xi / ( 1. + t / 2. / QQ ) * ( C_110 + C_110_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * ( C_010 + C_010_A ) + ( C_111 + C_111_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f
+            * ( C_011 + C_011_A ) ) * cos( PI - (phi * RAD) ) + ( C_112 + C_112_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * ( C_012 + C_012_A ) ) * cos( 2. * ( PI - (phi * RAD) ) )
+            + ( C_113 + C_113_A ) * cos( 3. * ( PI - (phi * RAD) ) ) );
+    
+    // TODO: Decipher how S changes from C
+    S_A_U_I = C_110 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_010 + ( C_111 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_011 ) * cos( PI - (phi * RAD) )
+            + ( C_112 + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_012 ) * cos( 2. * ( PI - (phi * RAD) ) ) + C_113 * cos( 3. * ( PI - (phi * RAD) ) );
+    S_B_U_I = xi / ( 1. + t / 2. / QQ ) * ( C_110_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_010_V + ( C_111_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_011_V ) * cos( PI - (phi * RAD) )
+            + ( C_112_V + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * C_012_V ) * cos( 2. * ( PI - (phi * RAD) ) ) + C_113_V * cos( 3. * ( PI - (phi * RAD) ) ) );
+    S_C_U_I = xi / ( 1. + t / 2. / QQ ) * ( C_110 + C_110_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * ( C_010 + C_010_A ) + ( C_111 + C_111_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f
             * ( C_011 + C_011_A ) ) * cos( PI - (phi * RAD) ) + ( C_112 + C_112_A + sqrt(2) / ( 2. - x ) * Ktilde_10 / sqrt(QQ) * f * ( C_012 + C_012_A ) ) * cos( 2. * ( PI - (phi * RAD) ) )
             + ( C_113 + C_113_A ) * cos( 3. * ( PI - (phi * RAD) ) ) );
 }
