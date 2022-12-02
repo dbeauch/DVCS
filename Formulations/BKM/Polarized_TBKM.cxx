@@ -185,8 +185,7 @@ Double_t TBKM::DVCS_LP_10(Double_t *kine, Double_t phi, TComplex *t2cffs, TStrin
     // c_dvcs_unp(Feff,F*)
     c_dvcs_efffs = f * c_dvcs_ffs;
     
-    //The below equations in the paper have a split of real and imaginary, include that 
-    //Liliet doesn't seem to distinguish
+    //The below equations in the paper have a split of real and imaginary, include that by checking real/im terms by hand
     // dvcs c_n coefficients (BKM10 eqs. [2.20], [2.21])
     c0_dvcs_10 = 2. * lambda * bigLambda * y * (2 - y) / sqrtOnePlusEE  * c_dvcs_ffs; 
     c1_dvcs_10 = -1. * 8. * bigLambda * K / ( 2. - x ) / ( 1. + ee ) * ( -1. * lambda * y * sqrtOnePlusEE ) * c_dvcs_efffs;
