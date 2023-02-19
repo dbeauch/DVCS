@@ -1,0 +1,1 @@
+I plotted Twist-3 with different values of Kinematic variables and compare their plots. The reference for these kinematic variables are listed on the Paper:arXiv:2109.10373v2 [hep-ph] 13 Dec 2021 (pg#23). 
