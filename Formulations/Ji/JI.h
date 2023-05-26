@@ -17,7 +17,7 @@ private:
 	double GeV2nb = .389379*1000000; // Conversion from 1/GeV2 to NanoBarn
 
 	double QQ, x, t, k, q; // kinematics
-	double ee, y, xi, tmin, s, Gamma, sqrtOnePlusEE;
+	double ee, y, xi, tmin, s, Gamma, sqrtOnePlusEE, N;
 	double qPrime, alpha, beta;
 	double K, Ktilde_10, KD;
 	double lambda, bigLambda;
@@ -27,6 +27,7 @@ private:
 	double Amp2_DVCS; //Eqn. 3.17
 	//Double_t H_DVCS, H_U_DVCS, H_L_DVCS, H_T_in_DVCS, H_T_out_DVCS; //3.29 OLD MODEL
 	double h_U, h_U_tilde, h_plusU, h_minusL; // B.13-B.15
+	complexDouble F_UU, F_UT_out, F_UL, F_LL, F_UT_in, F_LT_in;
 
 public:
 
@@ -39,13 +40,13 @@ public:
 	//void BHLeptonPropagators(Double_t *kine, Double_t phi);
 	
 	void setValuesOf_h(double phi, int twist); //PHI IN DEGREES FOR THIS
+	void setValuesOf_F(complexDouble H, complexDouble E);
+	void updateXi();
 	double get_h_U();
+	double get_h_U_tilde();
+	double get_h_minusL();
+	double get_h_plusU();
 
-	// WORK FROM BEFORE SWITCHING MODEL
-	//void set_h_values();
-	//void DVCS_squaredAmplitude(); 	// EQUATION 3.17 - not finished
-	//void H_DVCS_Calculation();    	// EQUATION 3.29 - not finished 
-	//void H_DVCS_U_Calculation()		// EQUATION 3.34 - not finished
 
 	//ClassDef(JI,1);
 

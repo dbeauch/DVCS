@@ -16,11 +16,11 @@ int main() {
     ji_Instance.setAlphaBeta(0.5, 0.5);
 
     ofstream output;
-    output.open("Fig4_Testing.txt");
+    output.open("Fig4_hU_tilde_Testing_Twist3.txt");
 
     for(double phi = 0; phi < 361; phi++){
         ji_Instance.setValuesOf_h(phi, twist);
-        output << phi << " " << ji_Instance.get_h_U() << endl;
+        output << phi << " " << ji_Instance.get_h_U_tilde() << endl;
     }
     cout << "test" << endl;
 
